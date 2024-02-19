@@ -6,7 +6,7 @@ import Handlebars from 'handlebars';
 // Passport imports:
 import passport from "passport";
 import cookieParser from 'cookie-parser';
-import initializePassport from "./config/config.js";
+import initializePassport from "./config/userConfig.js";
 
 // Router imports:
 import productRouter from './routes/api/products.router.js';
