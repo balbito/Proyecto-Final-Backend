@@ -31,8 +31,10 @@ import cors from 'cors';
 
 // SERVER
 const app = express();
-const PORT = 8080;
-const httpServer = app.listen(PORT, () => { `Server listening on port: ${PORT}`});
+const PORT = config.port;
+const httpServer = app.listen(PORT, () => {
+  `Server listening on port ${PORT}`;
+});
 
 // MIDDLEWARES
 app.use(express.json());
