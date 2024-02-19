@@ -1,0 +1,88 @@
+<div class="container mt-4 mb-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card border-none">
+        <img
+          src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png"
+          class="w-16 h-16 object-cover rounded-circle img-thumbnail"
+          alt="Imagen de perfil"
+        />
+      </div>
+    </div>
+    <div class="col-md-8 mt-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        {{#if user}}
+          <h1>Bienvenido {{user.name}}</h1>
+        {{else}}
+          <h1>Bienvenido Invitado</h1>
+        {{/if}}
+        <h2>Permisos: {{user.role}}</h2>
+        {{#ifRoleEquals user.role "admin"}}
+          <form action="/productmanager" method="get">
+            <input
+              type="submit"
+              value="Product Manager"
+              class="btn btn-primary"
+            />
+          </form>
+        {{/ifRoleEquals}}
+        <form action="/api/sessions/logout" method="post">
+          <input type="submit" value="Logout" class="btn btn-danger" />
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4">
+    {{#each products.docs}}
+      <div class="col mb-4">
+        <div class="card h-100">
+          <img src="{{thumbnails}}" class="card-img-top" alt="Product Image" />
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">{{description}}</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Code: {{code}}</li>
+            <li class="list-group-item">Price: ${{price}}</li>
+            <li class="list-group-item">Stock: {{stock}}</li>
+            <li class="list-group-item">Category: {{category}}</li>
+          </ul>
+          <div class="card-body mt-auto">
+            {{#each thumbnails}}
+              <img
+                src="{{this}}"
+                alt="Thumbnail"
+                width="40"
+                height="40"
+                style="margin-right: 5px;"
+              />
+            {{/each}}
+          </div>
+          <button type="button" class="btn btn-dark m-4">Add to cart</button>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+<div class="position-relative">
+  <nav class="position-absolute top-100 start-50 translate-middle">
+    <ul class="pagination mb-4">
+      {{#if products.hasPrevPage}}
+        <li class="page-item"><a
+            class="page-link"
+            href="/products?page={{products.prevPage}}"
+          >Previous</a></li>
+      {{/if}}
+      <li class="page-item"><a
+          class="page-link"
+          href="#"
+        >{{products.page}}</a></li>
+      {{#if products.hasNextPage}}
+        <li class="page-item"><a
+            class="page-link"
+            href="/products?page={{products.nextPage}}"
+          >Next</a></li>
+      {{/if}}
+    </ul>
+  </nav>
+</div>
