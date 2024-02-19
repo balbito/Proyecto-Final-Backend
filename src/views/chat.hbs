@@ -1,13 +1,31 @@
 <div>
-    <input type="text" id="chatbox">
-  </div>
 
-  <div>
-    <p id="messages"></p>
+  <div class="m-3 justify-center">
+    <div>
+      <form class="row p-3" action="/" method="post">
+        <input
+          class="form-control m-1"
+          type="email"
+          name="user"
+          placeholder="User email"
+          id="user"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="message"
+          placeholder="Message"
+          id="message"
+        />
+        <input
+          class="btn btn-dark m-2"
+          type="submit"
+          value="Send"
+          id="send-button"
+        />
+      </form>
+    </div>
   </div>
-  
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/main.js"></script>
 </div>
-  

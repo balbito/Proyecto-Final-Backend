@@ -7,15 +7,19 @@ form.addEventListener("submit", (e) => {
   const obj = {};
   data.forEach((value, key) => (obj[key] = value));
 
-  fetch("/api/sessions/register", {
+  fetch("/api/jwt/register", {
     method: "POST",
     body: JSON.stringify(obj),
     headers: {
       "Content-Type": "application/json",
     },
   }).then((result) => {
-    if (result.status === 200) {
+    if (result.status === 201) {
+      result.json();
+      alert("Success creating user");
       window.location.replace("/users/login");
+    } else {
+      alert("Error creating user");
     }
   });
 });

@@ -1,51 +1,20 @@
 const socket = io();
 
-const chatbox = document.querySelector("#chatbox");
-let user;
+const sendButton = document.querySelector("#send-button");
+const user = document.querySelector("#user");
+const message = document.querySelector("#message");
 
-Swal.fire({
-    title: "Bienvenido",
-    text: "Ingrese su nombre para continuar",
-    input: "text", // Indicamos que el cliente necesita escribir un texto para poder avanzar de esa alerta 
-    inputValidator: (value) => {
-        return !value && "Necesitas identificarte"
-    },
-    allowOutsideClick: false
-}).then((value) => {
-    user = value.value;
-    socket.emit("inicio", user);
-});
+sendButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  let newMessage = {
+    user: user.value,
+    message: message.value,
+  };
+  if (user.value == "") return alert("User email required");
+  if (message.value.trim() == "")
+    return alert("Message empty, please introduce content");
+  socket.emit("message", newMessage);
 
-chatbox.addEventListener('keyup', (e) => {
-    if(e.key === 'Enter') {
-        // cliente envia un mensaje
-        socket.emit("message", {
-            user,
-            message: e.target.value,
-        });
-        chatbox.value = "";
-    }
-});
-
-socket.on("connected", (data) => {
-    if (user !== undefined) {
-        Swal.fire({
-            text: `Nuevo ususario conectado: ${data}`,
-            toast: true,
-            position: "top-right",
-        });
-    }
-});
-
-socket.on("messages", (data) => {
-    const log = document.querySelector('#messages');
-    let messages = "";
-
-    data.forEach((message) => {
-        messages += `<strong>${message.user}</strong>: ${message.message} <br />`
-    });
-
-    log.innerHTML = messages;
-
-    // console.log(data)  // cuando nos conectamos el cliente va a recibir todos los mensajes
+  user.value = "";
+  message.value = "";
 });
