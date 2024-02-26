@@ -1,50 +1,164 @@
-<div>
+<div class="container mt-4 mb-4">
   <div class="m-3 d-flex justify-content-center">
     <div class="mr-3">
       <form action="/api/jwt/logout" method="post">
         <input type="submit" value="Logout" class="btn btn-danger" />
       </form>
     </div>
-    <div>
+    <div class="mr-3">
       <form action="/products" method="get">
-        <input type="submit" value="Back to profile" class="btn btn-primary" />
+        <input type="submit" value="Profile" class="btn btn-dark" />
+      </form>
+    </div>
+    <div>
+      <form action="/admin/manager" method="get">
+        <input type="submit" value="Manager" class="btn btn-dark" />
       </form>
     </div>
   </div>
   <div class="m-3 justify-center">
     <div>
-      <form class="row p-3" action="/api/products" method="post">
-        <input class="form-control m-1" type="text" name="title" placeholder="Title" id="title">
-        <input class="form-control m-1 " type="text" name="description" placeholder="Description" id="description">
-        <input class="form-control m-1 " type="text" name="code" placeholder="Code" id="code">
-        <input class="form-control m-1" type="number" name="price" placeholder="Price" id="stock">
-        <input class="form-control m-1 " type="number" name="stock" placeholder="Stock" id="stock">
-        <input class="form-control m-1 " type="text" name="category" placeholder="Category" id="category">
-        <input class="form-control m-1 " type="text" name="thumbnails" placeholder="Thumbnails" id="thumbnails">
-        <input class="btn btn-dark m-2" type="submit" value="Create" id="send" />
+      <form
+        class="row p-3 create-form"
+        action="/api/products"
+        method="post"
+        style="display: none;"
+      >
+        <input
+          class="form-control m-1"
+          type="text"
+          name="title"
+          placeholder="Title"
+          id="title"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="description"
+          placeholder="Description"
+          id="description"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="code"
+          placeholder="Code"
+          id="code"
+        />
+        <input
+          class="form-control m-1"
+          type="number"
+          name="price"
+          placeholder="Price"
+          id="price"
+        />
+        <input
+          class="form-control m-1"
+          type="number"
+          name="stock"
+          placeholder="Stock"
+          id="create-stock"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="category"
+          placeholder="Category"
+          id="category"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="thumbnails"
+          placeholder="Thumbnails"
+          id="thumbnails"
+        />
+        <input
+          class="btn btn-dark m-2"
+          type="submit"
+          value="Create"
+          id="send"
+        />
       </form>
       <button class="btn btn-dark m-2" id="create-product">Create product</button>
     </div>
     <div>
-      <form class="row p-3 update-form" action="" method="post" style="display: none;">
-        <input class="form-control m-1" type="text" name="productId" placeholder="product Id" id="productId" />
-        <input class="form-control m-1" type="text" name="title" placeholder="Title" id="title" />
-        <input class="form-control m-1" type="text" name="description" placeholder="Description" id="description" />
-        <input class="form-control m-1" type="text" name="code" placeholder="Code" id="code" />
-        <input class="form-control m-1" type="number" name="price" placeholder="Price" id="stock" />
-        <input class="form-control m-1" type="number" name="stock" placeholder="Stock" id="stock" />
-        <input class="form-control m-1" type="text" name="category" placeholder="Category" id="category" />
-        <input class="form-control m-1" type="text" name="thumbnails" placeholder="Thumbnails" id="thumbnails" />
-        <input class="btn btn-dark m-2" type="submit" value="Update" id="update" />
+      <form
+        class="row p-3 update-form"
+        action=""
+        method="post"
+        style="display: none;"
+      >
+        <input
+          class="form-control m-1"
+          type="text"
+          name="productId"
+          placeholder="product Id"
+          id="productId"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="title"
+          placeholder="Title"
+          id="update-title"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="description"
+          placeholder="Description"
+          id="update-description"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="code"
+          placeholder="Code"
+          id="update-code"
+        />
+        <input
+          class="form-control m-1"
+          type="number"
+          name="price"
+          placeholder="Price"
+          id="update-price"
+        />
+        <input
+          class="form-control m-1"
+          type="number"
+          name="stock"
+          placeholder="Stock"
+          id="update-stock"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="category"
+          placeholder="Category"
+          id="update-category"
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          name="thumbnails"
+          placeholder="Thumbnails"
+          id="update-thumbnails"
+        />
+        <input
+          class="btn btn-dark m-2"
+          type="submit"
+          value="Update"
+          id="update"
+        />
       </form>
       <button class="btn btn-dark m-2" id="update-product">Update product</button>
     </div>
   </div>
 
-  <hr>
+  <hr />
 
-  <div class="p-2">
-
+  <div class="p-2 table-responsive">
     <table class="table">
       <thead class="table-dark">
         <tr>
@@ -57,27 +171,33 @@
           <th> Category </th>
           <th> Thumbnails </th>
           <th> Actions </th>
-
         </tr>
       </thead>
       <tbody>
         {{#each products.docs}}
-        <tr class="align-middle">
-          <td> {{ _id }}</td>
-          <td> {{ title }} </td>
-          <td> {{ description }} </td>
-          <td> {{ code }} </td>
-          <td> {{ price }} </td>
-          <td> {{ stock }} </td>
-          <td> {{ category }} </td>
-          <td>
-            {{#each thumbnails}}
-            <img src="{{ this }}" alt="Thumbnail" width="40" height="40">
-            {{/each}}
-          </td>
-        </tr>
+          <tr class="align-middle">
+            <td> {{_id}}</td>
+            <td> {{title}} </td>
+            <td> {{description}} </td>
+            <td> {{code}} </td>
+            <td> {{price}} </td>
+            <td> {{stock}} </td>
+            <td> {{category}} </td>
+            <td>
+              {{#each thumbnails}}
+                <img src="{{this}}" alt="Thumbnail" width="40" height="40" />
+              {{/each}}
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-danger btn-delete-product"
+                data-product-id="{{_id}}"
+              >Delete</button>
+            </td>
+          </tr>
         {{/each}}
-
+      </tbody>
     </table>
   </div>
 </div>

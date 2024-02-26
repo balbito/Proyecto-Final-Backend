@@ -12,6 +12,9 @@ import initializePassport from "./config/userConfig.js";
 import productRouter from './routes/api/products.router.js';
 import cartRouter from './routes/api/carts.router.js';
 import viewsRouter from './routes/views/views.router.js';
+import { adminRouter } from './routes/views/admin.views.routes.js';
+import ticketRouter from './routes/api/tickets.router.js';
+import emailRouter from './routes/api/email.router.js';
 import usersRouter from './routes/api/users.router.js';
 import userViewRouter from './routes/views/users.views.router.js';
 import jwtRouter from './routes/api/jwt.router.js';
@@ -22,7 +25,7 @@ import actionRouter from './routes/api/users.actions.routes.js';
 import { Server } from 'socket.io';
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import basePath from './utils/utils.js';
-import messagesDao from './daos/dbManager/messages.dao.js';
+import { messagesService } from './services/service.js';
 
 // Config imports:
 import config from './config/config.js';
@@ -85,12 +88,16 @@ app.use("/api/carts", cartRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/jwt", jwtRouter);
 app.use("/api/actions", actionRouter);
+app.use("/api/email", emailRouter);
+app.use("/api/tickets", ticketRouter);
+
 
 
 // VIEWROUTER
 app.use("/", viewsRouter);
 app.use("/users", userViewRouter);
 app.use("/github", githubLoginViewsRouter);
+app.use("/admin", adminRouter);
 
 
 io.on("connection", (socket) => {
@@ -99,7 +106,7 @@ io.on("connection", (socket) => {
   socket.on("message", async (data) => {
     // servidor recibe el mensaje
     console.log(data);
-    await messagesDao.createMessage(data)
+    await messagesService.createMessage(data)
   });
 
   socket.on("disconnect", () => {

@@ -10,19 +10,44 @@ import {
 const router = Router();
 
 //Get products
-router.get("/", getProductsController);
-
-//Get product
-router.get("/:pid", getProductController);
-
-//Post product
-router.post("/", postProductController);
-
-//Put product
-router.put("/:pid", putProductController);
-
-//Delete product
-router.delete("/:pid", deleteProductController);
+ProductRouter.get(
+    "/",
+    passportCall("jwt"),
+    authorization("admin"),
+    getProductsController
+  );
+  
+  //Get product
+  ProductRouter.get(
+    "/:pid",
+    passportCall("jwt"),
+    authorization("admin"),
+    getProductController
+  );
+  
+  //Post product
+  ProductRouter.post(
+    "/",
+    passportCall("jwt"),
+    authorization("admin"),
+    postProductController
+  );
+  
+  //Put product
+  ProductRouter.put(
+    "/:pid",
+    passportCall("jwt"),
+    authorization("admin"),
+    putProductController
+  );
+  
+  //Delete product
+  ProductRouter.delete(
+    "/:pid",
+    passportCall("jwt"),
+    authorization("admin"),
+    deleteProductController
+  );
 
 
 export default router;

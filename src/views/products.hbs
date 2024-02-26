@@ -22,11 +22,11 @@
         {{/if}}
         <h2>Permisos: {{user.role}}</h2>
         {{#ifRoleEquals user.role "admin"}}
-          <form action="/realtimeproducts" method="get">
+          <form action="admin/manager" method="get">
             <input
               type="submit"
-              value="Product Manager"
-              class="btn btn-primary"
+              value="Manager"
+              class="btn btn-dark mr-2"
             />
           </form>
         {{/ifRoleEquals}}

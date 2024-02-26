@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmQuantityButtons = document.querySelectorAll(
       ".btn-confirm-quantity"
     );
+
+    const confirmCartBtn = document.getElementById("confirmCartBtn");
+
   
     deleteButtons.forEach((button) => {
       button.addEventListener("click", async function (event) {
@@ -39,11 +42,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const quantity = quantityInput.value;
   
         try {
-          const response = await modifyProductQuantity(
-            cartId,
-            productId,
-            "update",
-            quantity
+          const response = await fetch(
+            `/api/actions/${cartId}/products/${productId}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ quantity: quantity }),
+            }
           );
   
           if (response.ok) {
@@ -57,19 +64,21 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   
-    async function modifyProductQuantity(cartId, productId, action, quantity) {
+    confirmCartBtn.addEventListener("click", async function (event) {
+      const cartId = confirmCartBtn.dataset.cartId;
       try {
-        const requestBody = { action: action, quantity: quantity };
-        console.log("Request body:", requestBody);
-        return await fetch(`/api/actions/${cartId}/products/${productId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
+        const response = await fetch(`/api/carts/${cartId}/purchase`, {
+          method: "POST",
         });
+  
+        if (response.ok) {
+          console.log("Purchase successful");
+          window.location.replace("/successPurchase");
+        } else {
+          console.error("Failed to process purchase");
+        }
       } catch (error) {
-        console.error("Error modifying product quantity:", error);
+        console.error("Error processing purchase:", error);
       }
-    }
+    });
   });

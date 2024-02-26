@@ -1,6 +1,6 @@
-import userModel from "../../models/users.model.js";
+import userModel from "../models/users.model.js";
 
-class UserDao {
+export default class UserService {
   async getAllUsers() {
     try {
       const users = await userModel.find();
@@ -34,5 +34,3 @@ class UserDao {
     }
   }
 }
-
-export default new UserDao();

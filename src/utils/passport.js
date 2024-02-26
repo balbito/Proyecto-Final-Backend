@@ -4,7 +4,7 @@ import passport from "passport";
 
 const privateKey = config.privateKey;
 
-//JSON Web Tokens JWT functinos:
+//JSON Web Tokens JWT functions:
 export const generateJWToken = (user) => {
   return jwt.sign({ user }, privateKey, { expiresIn: "24h" });
 };

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from "express";
 import {
   getCartsController,
   getCartController,
@@ -8,24 +8,83 @@ import {
   putProductQuantityInCartController,
   deleteCartController,
   deleteProductFromCartController,
+  purchaseController,
 } from "../../controllers/cartsControllers.js";
+import { authorization } from "../../utils/auth.js";
+import { passportCall } from "../../utils/passport.js";
 
-const router = Router();
+const CartsRouter = Router();
 
-router.get("/", getCartsController);
+//Get carts
+CartsRouter.get(
+  "/",
+  passportCall("jwt"),
+  authorization("admin"),
+  getCartsController
+);
 
-router.get("/:cid", getCartController);
+//Get carts
+CartsRouter.get(
+  "/:cid",
+  passportCall("jwt"),
+  authorization(["user", "admin"]),
+  getCartController
+);
 
-router.post("/", postCartController);
+//Post cart
+CartsRouter.post(
+  "/:uid",
+  passportCall("jwt"),
+  authorization(["user", "admin"]),
+  postCartController
+);
 
-router.post("/:cid/product/:pid", postProductInCartController);
+//post product in cart
+CartsRouter.post(
+  "/:cid/product/:pid",
+  passportCall("jwt"),
+  authorization("user"),
+  postProductInCartController
+);
 
-router.put("/:cid", putProductsInCartController);
+//put products in cart
+CartsRouter.put(
+  "/:cid",
+  passportCall("jwt"),
+  authorization("admin"),
+  putProductsInCartController
+);
 
-router.put("/:cid/products/:pid", putProductQuantityInCartController);
+//put product quantity in  cart
+CartsRouter.put(
+  "/:cid/products/:pid",
+  passportCall("jwt"),
+  authorization("user"),
+  putProductQuantityInCartController
+);
 
-router.delete("/:cid", deleteCartController);
+//delete cart
+CartsRouter.delete(
+  "/:cid",
+  passportCall("jwt"),
+  authorization("admin"),
+  deleteCartController
+);
 
-router.delete("/:cid/products/:pid", deleteProductFromCartController);
+//delete product from cart
+CartsRouter.delete(
+  "/:cid/products/:pid",
+  passportCall("jwt"),
+  authorization("user"),
+  deleteProductFromCartController
+);
 
-export default router;
+//confirm purchase
+CartsRouter.post(
+  "/:cid/purchase",
+  passportCall("jwt"),
+  authorization("user"),
+  purchaseController
+);
+
+export { CartsRouter };

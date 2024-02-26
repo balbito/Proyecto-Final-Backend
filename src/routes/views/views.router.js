@@ -1,45 +1,36 @@
 import { Router } from "express";
-import productsDao from "../../daos/dbManager/products.dao.js";
-import cartsDao from "../../daos/dbManager/carts.dao.js";
 import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
+import { cartService, productsService, ticketsService, usersService } from "../../services/service.js";
 
 const router = Router();
 
-
-router.get("/", (req, res) => {
+//Basic redirection
+viewsRouter.get("/", (req, res) => {
   res.redirect("/users/register");
 });
 
-
-
-router.get(
-  "/realtimeproducts",
+//Chat
+viewsRouter.get(
+  "/chat",
   passportCall("jwt"),
-  authorization("admin"),
-  async (req, res) => {
-    const products = await productsDao.getAllProducts();
-    res.render("realTimeProducts", {
-      title: "Products Mongoose",
-      products,
+  authorization("user"),
+  (req, res) => {
+    res.render("chat", {
+      title: "Chat",
       user: req.user,
     });
   }
 );
 
-router.get("/chat", (req, res) => {
-    res.render("chat", {
-        title: "chat"
-    });
-});
-
-router.get(
+//Products
+viewsRouter.get(
   "/products",
   passportCall("jwt"),
   authorization(["admin", "user"]),
   async (req, res) => {
     const { page, limit, sort } = req.query;
-    const products = await productsDao.getAllProducts(page, limit, sort);
+    const products = await productsService.getAll(limit, page, sort);
     res.render("products", {
       title: "Products",
       products,
@@ -48,21 +39,74 @@ router.get(
   }
 );
 
-router.get("/carts/", async (req, res) => {
-  const carts = await cartsDao.getAllCarts();
-  res.render("carts", {
-    title: "Carts",
-    carts,
-  });
-});
+//Purchase successfull
+viewsRouter.get(
+  "/successPurchase",
+  passportCall("jwt"),
+  authorization("user"),
+  (req, res) => {
+    res.render("success", {
+      title: "Success Purchase",
+      user: req.user,
+    });
+  }
+);
 
+//Product Manager
+viewsRouter.get(
+  "/productmanager",
+  passportCall("jwt"),
+  authorization("admin"),
+  async (req, res) => {
+    const products = await productsService.getAll();
+    res.render("productManager", {
+      title: "Products Mongoose",
+      products,
+      user: req.user,
+    });
+  }
+);
 
-router.get("/carts/:cid", async (req, res) => {
-  const { cid } = req.params;
-  const cart = await cartsDao.getCartById(cid);
-  res.render("cart", {
-    title: "Cart",
-    cart,
-  });
-});
+//Cart Manager
+viewsRouter.get(
+  "/cartmanager",
+  passportCall("jwt"),
+  authorization("admin"),
+  async (req, res) => {
+    const carts = await cartService.getAll();
+    res.render("cartManager", {
+      title: "Carts Mongoose",
+      carts,
+    });
+  }
+);
+
+//Users Manager
+viewsRouter.get(
+  "/usermanager",
+  passportCall("jwt"),
+  authorization("admin"),
+  async (req, res) => {
+    const users = await usersService.getAll();
+    res.render("userManager", {
+      title: "Users Mongoose",
+      users,
+    });
+  }
+);
+
+//Tickets Manager
+viewsRouter.get(
+  "/ticketmanager",
+  passportCall("jwt"),
+  authorization("admin"),
+  async (req, res) => {
+    const tickets = await ticketsService.getAll();
+    res.render("ticketManager", {
+      title: "Ticket Mongoose",
+      tickets,
+    });
+  }
+);
+
 export default router;

@@ -1,9 +1,9 @@
 import { Router } from "express";
 import {
-  getUsersController,
-  getUserController,
-  deleteUserController,
-} from "../../controllers/usersControllers.js";
+  getAllTicketsController,
+  getTicketController,
+  deleteTicketController,
+} from "../../controllers/ticketsControllers.js";
 import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
 
@@ -13,21 +13,19 @@ router.get(
   "/",
   passportCall("jwt"),
   authorization("admin"),
-  getUsersController
+  getAllTicketsController
 );
-
 router.get(
-  "/:userId",
+  "/:ticketId",
   passportCall("jwt"),
   authorization("admin"),
-  getUserController
+  getTicketController
 );
-
 router.delete(
-  "/:userId",
+  "/:ticketId",
   passportCall("jwt"),
   authorization("admin"),
-  deleteUserController
+  deleteTicketController
 );
 
 export default router;

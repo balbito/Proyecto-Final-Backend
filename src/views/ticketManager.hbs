@@ -1,0 +1,66 @@
+<div class="container mt-4 mb-4">
+  <div class="m-3 d-flex justify-content-center">
+    <div class="mr-3">
+      <form action="/api/jwt/logout" method="post">
+        <input type="submit" value="Logout" class="btn btn-danger" />
+      </form>
+    </div>
+    <div class="mr-3">
+      <form action="/products" method="get">
+        <input type="submit" value="Profile" class="btn btn-dark" />
+      </form>
+    </div>
+    <div>
+      <form action="/admin/manager" method="get">
+        <input type="submit" value="Manager" class="btn btn-dark" />
+      </form>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="p-2 table-responsive">
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th> Code </th>
+          <th> Purchase Date </th>
+          <th> Amount </th>
+          <th> Purchaser </th>
+          <th> Products </th>
+          <th> Actions </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each tickets}}
+          <tr class="align-middle">
+            <td>{{code}}</td>
+            <td>{{purchase_dateTime}}</td>
+            <td>{{amount}}</td>
+            <td>{{purchaser}}</td>
+            <td>
+              <ul>
+                {{#each products}}
+                  <li>Id:
+                    {{this.productId._id}}
+                    Quantity:
+                    {{this.quantity}}</li>
+                  <hr />
+                {{/each}}
+              </ul>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-danger btn-delete-ticket"
+                data-ticket-id="{{_id}}"
+              >Delete</button>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="/js/ticketManager.js"></script>

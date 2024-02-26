@@ -25,4 +25,6 @@ export default {
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
   callbackUrl: process.env.GITHUB_CALLBACK_URL,
   privateKey: process.env.PRIVATE_KEY,
+  gmailAccount: process.env.GMAIL_ACCOUNT,
+  gmailAppPassword: process.env.GMAIL_APP_PASSWD,
 };

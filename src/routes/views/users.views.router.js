@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
+import userDTO from "../../services/dto/user.dto.js";
 
 const router = Router();
 
@@ -15,12 +16,12 @@ router.get("/register", (req, res) => {
 router.get(
   "/current",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "admin"]),
   (req, res) => {
+    let user = new userDTO(req.user);
     res.render("profile", {
-      user: req.user,
+      user: user,
     });
   }
 );
-
 export default router;

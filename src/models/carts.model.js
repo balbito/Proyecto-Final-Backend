@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const cartSchema = new Schema({
+const cartProductSchema = new Schema({
 
     products: [{
 
@@ -11,6 +11,11 @@ const cartSchema = new Schema({
     }],
 
 });
+
+const cartSchema = new Schema({
+    userId: String,
+    products: [cartProductSchema],
+  });
 
 cartSchema.pre("find", function () {
     this.populate("products.productId");

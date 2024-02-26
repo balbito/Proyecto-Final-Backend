@@ -1,6 +1,6 @@
-import { productModel } from "../../models/products.model.js";
+import { productModel } from "../models/products.model.js";
 
-class ProductDao {
+export default class ProductService {
   async getAllProducts(limit, page, sort) {
     try {
       const options = {
@@ -45,5 +45,3 @@ class ProductDao {
     return await productModel.findByIdAndDelete(id);
   }
 }
-
-export default new ProductDao();

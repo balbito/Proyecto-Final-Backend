@@ -15,10 +15,12 @@
           <div class="d-flex justify-content-between align-items-center">
             {{#if user}}
               <h1>Bienvenido {{user.name}}</h1>
+              <p class="m-2" id="userEmail">{{user.email}}</p>
+              <h2>Permisos: {{user.role}}</h2>
             {{else}}
               <h1>Bienvenido Invitado</h1>
             {{/if}}
-            <h2>Permisos: {{user.role}}</h2>
+            
             <div>
               <form action="/products" method="get">
                 <input
@@ -103,6 +105,9 @@
             {{/each}}
           </div>
         </div>
+      </div>
+      <div class="card-footer text-center">
+        <button id="confirmCartBtn"  data-cart-id="{{cart._id}}" class="btn btn-dark mt-4">Confirm Cart</button>
       </div>
     </div>
   </div>
