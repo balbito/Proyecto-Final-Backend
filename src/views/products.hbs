@@ -1,33 +1,28 @@
 <div class="container mt-4 mb-4">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-12">
       <div class="card border-none">
         <img
           src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png"
           class="w-16 h-16 object-cover rounded-circle img-thumbnail"
           alt="Imagen de perfil"
         />
-      </div>
-    </div>
-     <form action="/users/current" method="get">
+        <form action="/users/current" method="get">
           <input type="submit" value="View Profile" class="btn btn-dark mt-2" />
         </form>
       </div>
-    <div class="col-md-8 mt-4 mb-4">
+    </div>
+    <div class="col-md-8 col-sm-12 mt-4 mb-4">
       <div class="d-flex justify-content-between align-items-center">
         {{#if user}}
-          <h1>Bienvenido {{user.name}}</h1>
+          <h1>Welcome {{user.name}}</h1>
         {{else}}
-          <h1>Bienvenido Invitado</h1>
+          <h1>Welcome Guest</h1>
         {{/if}}
-        <h2>Permisos: {{user.role}}</h2>
+        <h2>Role: {{user.role}}</h2>
         {{#ifRoleEquals user.role "admin"}}
           <form action="admin/manager" method="get">
-            <input
-              type="submit"
-              value="Manager"
-              class="btn btn-dark mr-2"
-            />
+            <input type="submit" value="Manager" class="btn btn-dark mr-2" />
           </form>
         {{/ifRoleEquals}}
         <form action="/api/jwt/logout" method="post">
@@ -40,7 +35,9 @@
     {{#each products.docs}}
       <div class="col mb-4">
         <div class="card h-100">
-          <img src="{{thumbnails}}" class="card-img-top" alt="Product Image" />
+          {{#with thumbnails}}
+            <img src="{{0}}" class="card-img-top" alt="Product Image" />
+          {{/with}}
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{title}}</h5>
             <p class="card-text">{{description}}</p>
@@ -53,16 +50,12 @@
           </ul>
           <div class="card-body mt-auto">
             {{#each thumbnails}}
-              <img
-                src="{{this}}"
-                alt="Thumbnail"
-                width="40"
-                height="40"
-                style="margin-right: 5px;"
-              />
+              <img src="{{this}}" alt="Thumbnail" class="mt-2 w-10 h-10" />
             {{/each}}
           </div>
-          <button type="button" class="btn btn-dark m-4">Add to cart</button>
+          <form action="/api/actions/{{_id}}" method="post">
+            <button type="submit" class="btn btn-dark m-4">Add to cart</button>
+          </form>
         </div>
       </div>
     {{/each}}
@@ -73,17 +66,17 @@
     <ul class="pagination mb-4">
       {{#if products.hasPrevPage}}
         <li class="page-item"><a
-            class="page-link"
+            class="page-link text-dark"
             href="/products?page={{products.prevPage}}"
           >Previous</a></li>
       {{/if}}
       <li class="page-item"><a
-          class="page-link"
+          class="page-link text-dark"
           href="#"
         >{{products.page}}</a></li>
       {{#if products.hasNextPage}}
         <li class="page-item"><a
-            class="page-link"
+            class="page-link text-dark"
             href="/products?page={{products.nextPage}}"
           >Next</a></li>
       {{/if}}

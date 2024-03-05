@@ -2,7 +2,7 @@ import passport from "passport";
 import passportLocal from "passport-local";
 import GitHubStrategy from "passport-github2";
 import jwtStrategy from "passport-jwt";
-import userModel from "../dao/models/user.model.js";
+import userModel from "../models/users.model.js";
 import { createHash } from "../utils/bcrypt.js";
 import config from "./config.js";
 

@@ -31,7 +31,7 @@ export default class CartService {
       throw new Error("Product not found");
     }
     const existingProduct = cart.products.find((product) =>
-      product.productId.equals(productId)
+      product.products.equals(productId)
     );
     if (existingProduct) {
       existingProduct.quantity++;
@@ -51,7 +51,7 @@ export default class CartService {
       throw new Error("Product not found");
     }
     const productIndex = cart.products.findIndex(
-      (product) => product.productId._id.toString() === productId
+      (product) => product.products._id.toString() === productId
     );
     if (productIndex === -1) {
       throw new Error("Product not found in the cart");
@@ -81,7 +81,7 @@ export default class CartService {
       throw new Error("Product not found");
     }
     const existingProduct = cart.products.find((product) =>
-      product.productId.equals(productId)
+      product.products.equals(productId)
     );
     if (existingProduct) {
       existingProduct.quantity = quantity;
@@ -110,7 +110,7 @@ export default class CartService {
       let total = 0;
 
       for (const cartProduct of cart.products) {
-        const productId = cartProduct.productId._id;
+        const productId = cartProduct.products._id;
         const product = await productModel.findById(productId);
         if (!product) {
           throw new Error(`Product with ID ${productId} not found`);

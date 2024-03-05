@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-8">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-2">
           <div class="card border-none">
             <img
               src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png"
@@ -11,23 +11,23 @@
             />
           </div>
         </div>
-        <div class="col-md-8 mt-4 mb-4">
+        <div class="col-md-10 mt-4 mb-4">
           <div class="d-flex justify-content-between align-items-center">
-            {{#if user}}
-              <h1>Bienvenido {{user.name}}</h1>
-              <p class="m-2" id="userEmail">{{user.email}}</p>
-              <h2>Permisos: {{user.role}}</h2>
-            {{else}}
-              <h1>Bienvenido Invitado</h1>
-            {{/if}}
-            
             <div>
-              <form action="/products" method="get">
-                <input
-                  type="submit"
-                  value="Back to profile"
-                  class="btn btn-primary"
-                />
+              {{#if user}}
+                <h1 class="m-2">Bienvenido {{user.name}}</h1>
+                <p class="m-2" id="userEmail">{{user.email}}</p>
+                <h2 class="m-2">Permisos: {{user.role}}</h2>
+              {{else}}
+                <h1>Bienvenido Invitado</h1>
+              {{/if}}
+            </div>
+            <div>
+              <form class="m-2" action="/products" method="get">
+                <input type="submit" value="Products" class="btn btn-dark" />
+              </form>
+              <form class="m-2" action="/chat" method="get">
+                <input type="submit" value="Chat" class="btn btn-dark m-2" />
               </form>
             </div>
           </div>
@@ -43,7 +43,7 @@
               <div class="card">
                 <div class="card-body">
                   <div
-                    class="d-flex justify-content-between align-items-center"
+                    class="d-flex flex-column flex-md-row justify-content-md-between align-items-center"
                   >
                     <img
                       src="{{this.productId.thumbnails}}"
@@ -51,18 +51,28 @@
                       width="50"
                       height="50"
                     />
-                    <h5 class="card-title ml-3">{{this.productId.title}}</h5>
-                    <div class="input-group" style="width: 150px">
-                      <input
+                    <h5 class="card-title mt-3">{{this.productId.title}}</h5>
+                    <div
+                      class="d-flex flex-column align-items-center align-items-md-start"
+                    >
+                      <div class="input-group" style="max-width: 150px;">
+                        <input
                           type="number"
-                          class="form-control text-center product-quantity"
+                          class="form-control text-center product-quantity rounded mb-2 mb-md-0"
                           value="{{this.quantity}}"
                           aria-label="Quantity"
                           data-product-id="{{this.productId._id}}"
-                      />
-                      <button class="btn btn-primary btn-confirm-quantity" data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}">Confirm Quantity</button>
+                        />
+                        <button
+                          data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
+                          class="btn btn-dark btn-confirm-quantity rounded" 
+                        >Confirm Quantity</button>
+                      </div>
+                      <button
+                        data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
+                        class="btn btn-danger btn-delete-product mt-2"
+                      >Delete</button>
                     </div>
-                    <button type="button" class="btn btn-danger btn-delete-product" data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}">Delete</button>
                   </div>
                   <div class="collapse" id="productCollapse{{@index}}">
                     <ul class="list-group list-group-flush">

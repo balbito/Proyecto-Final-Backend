@@ -6,8 +6,10 @@ import {
     putProductController,
     deleteProductController,
 } from "../../controllers/productsControllers.js";
+import { authorization } from '../../utils/auth.js';
+import { passportCall } from '../../utils/passport.js';
 
-const router = Router();
+const ProductRouter = Router();
 
 //Get products
 ProductRouter.get(
@@ -50,4 +52,4 @@ ProductRouter.get(
   );
 
 
-export default router;
+export { ProductRouter };

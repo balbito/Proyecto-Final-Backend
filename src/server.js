@@ -9,9 +9,9 @@ import cookieParser from 'cookie-parser';
 import initializePassport from "./config/userConfig.js";
 
 // Router imports:
-import productRouter from './routes/api/products.router.js';
-import cartRouter from './routes/api/carts.router.js';
-import viewsRouter from './routes/views/views.router.js';
+import { ProductRouter } from './routes/api/products.router.js';
+import { CartsRouter } from './routes/api/carts.router.js';
+import { viewsRouter } from './routes/views/views.router.js';
 import { adminRouter } from './routes/views/admin.views.routes.js';
 import ticketRouter from './routes/api/tickets.router.js';
 import emailRouter from './routes/api/email.router.js';
@@ -83,8 +83,8 @@ const io = new Server(httpServer);
 app.use(cookieParser("CoderS3cr3tC0d3"));
 
 // ROUTES
-app.use("/api/products", productRouter);
-app.use("/api/carts", cartRouter);
+app.use("/api/products", ProductRouter);
+app.use("/api/carts", CartsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/jwt", jwtRouter);
 app.use("/api/actions", actionRouter);

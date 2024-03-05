@@ -1,4 +1,4 @@
-import userModel from "../dao/models/user.model.js";
+import userModel from "../models/users.model.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import { generateJWToken } from "../utils/passport.js";
 

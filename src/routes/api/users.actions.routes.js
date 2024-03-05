@@ -1,8 +1,8 @@
 import { Router } from "express";
 import userModel from "../../models/users.model.js";
-import cartsDao from "../../daos/dbManager/carts.dao.js";
 import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
+import { cartService } from "../../services/service.js";
 
 const router = Router();
 
@@ -23,15 +23,15 @@ router.post(
   
         let cart;
         if (!user.cart) {
-          cart = await cartsDao.createCart();
+          cart = await cartService.create();
           user.cart = cart._id;
           await user.save();
         } else {
           cart = user.cart;
         }
   
-        await cartsDao.addProductCart(cart._id, productId);
-        cart = await cartsDao.getCartById(cart._id);
+        await cartService.addProduct(cart._id, productId);
+        cart = await cartService.getOne(cart._id);
         res.render("cart", {
           title: "Cart",
           cart,
@@ -53,8 +53,8 @@ router.post(
         const productId = req.params.pid;
         const cartId = req.params.cid;
   
-        await cartsDao.deleteProductCart(cartId, productId);
-        let cart = await cartsDao.getCartById(cartId);
+        await cartService.deleteProduct(cartId, productId);
+        let cart = await cartService.getOne(cartId);
         res.render("cart", {
           title: "Cart",
           cart,
@@ -76,8 +76,8 @@ router.post(
         const { cid, pid } = req.params;
         const { quantity } = req.body;
   
-        await cartsDao.updateProductQuantity(cid, pid, quantity);
-        let cart = await cartsDao.getCartById(cid);
+        await cartService.updateProductQuantity(cid, pid, quantity);
+        let cart = await cartService.getOne(cid);
         res.render("cart", {
           title: "Cart",
           cart,

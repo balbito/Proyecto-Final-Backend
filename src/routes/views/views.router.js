@@ -3,7 +3,7 @@ import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
 import { cartService, productsService, ticketsService, usersService } from "../../services/service.js";
 
-const router = Router();
+const viewsRouter = Router();
 
 //Basic redirection
 viewsRouter.get("/", (req, res) => {
@@ -109,4 +109,4 @@ viewsRouter.get(
   }
 );
 
-export default router;
+export { viewsRouter };
