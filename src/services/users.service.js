@@ -1,4 +1,5 @@
 import userModel from "../models/users.model.js";
+import logger from "../utils/logger.js";
 
 export default class UserService {
   async getAllUsers() {
@@ -6,7 +7,7 @@ export default class UserService {
       const users = await userModel.find();
       return users;
     } catch (error) {
-      console.error("Error consulting users");
+      logger.error("Error consulting users");
     }
   }
 
@@ -18,7 +19,7 @@ export default class UserService {
       }
       return user;
     } catch (error) {
-      console.error("Error consulting user with ID: " + userId);
+      logger.error("Error consulting user with ID: " + userId);
     }
   }
 
@@ -30,7 +31,7 @@ export default class UserService {
       }
       return { message: "User deleted" };
     } catch (error) {
-      console.error("Error deleting user with ID: " + userId);
+      logger.error("Error deleting user with ID: " + userId);
     }
   }
 }

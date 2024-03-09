@@ -22,7 +22,7 @@
           {{/if}}
           <h2>Role: {{user.role}}</h2>
           {{#ifRoleEquals user.role "admin"}}
-            <form action="admin/manager" method="get">
+            <form action="/manager" method="get">
               <input type="submit" value="Manager" class="btn btn-dark mr-2" />
             </form>
           {{/ifRoleEquals}}

@@ -18,11 +18,11 @@ const cartSchema = new Schema({
   });
 
 cartSchema.pre("find", function () {
-    this.populate("products.productId");
+    this.populate("products");
 });
 
 cartSchema.pre("findOne", function () {
-    this.populate("products.productId");
+    this.populate("products");
   });
 
 const cartModel = model("carts", cartSchema);

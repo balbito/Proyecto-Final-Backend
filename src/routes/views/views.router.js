@@ -2,51 +2,25 @@ import { Router } from "express";
 import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
 import { cartService, productsService, ticketsService, usersService } from "../../services/service.js";
+import userDTO from "../../services/dto/user.dto.js";
 
 const viewsRouter = Router();
 
 //Basic redirection
 viewsRouter.get("/", (req, res) => {
-  res.redirect("/users/register");
+  res.redirect("/register");
 });
 
-//Chat
-viewsRouter.get(
-  "/chat",
-  passportCall("jwt"),
-  authorization("user"),
-  (req, res) => {
-    res.render("chat", {
-      title: "Chat",
-      user: req.user,
-    });
-  }
-);
+//ADMIN VIEWS
 
-//Products
+//Manager
 viewsRouter.get(
-  "/products",
+  "/manager",
   passportCall("jwt"),
-  authorization(["admin", "user"]),
-  async (req, res) => {
-    const { page, limit, sort } = req.query;
-    const products = await productsService.getAll(limit, page, sort);
-    res.render("products", {
-      title: "Products",
-      products,
-      user: req.user,
-    });
-  }
-);
-
-//Purchase successfull
-viewsRouter.get(
-  "/successPurchase",
-  passportCall("jwt"),
-  authorization("user"),
+  authorization("admin"),
   (req, res) => {
-    res.render("success", {
-      title: "Success Purchase",
+    res.render("manager", {
+      title: "Admin Manager",
       user: req.user,
     });
   }
@@ -105,6 +79,85 @@ viewsRouter.get(
     res.render("ticketManager", {
       title: "Ticket Mongoose",
       tickets,
+    });
+  }
+);
+
+//USERS
+
+//---REGISTER LOGIN
+
+//Local register
+viewsRouter.get("/register", (req, res) => {
+  res.render("register");
+});
+
+//Local login
+viewsRouter.get("/login", (req, res) => {
+  res.render("login");
+});
+
+//Github login
+viewsRouter.get("/github/login", (req, res) => {
+  res.render("github-login");
+});
+
+//Github error
+viewsRouter.get("/github/error", (req, res) => {
+  res.render("error", { error: "Unable to log in using GitHub!" });
+});
+
+//---PROFILE
+viewsRouter.get(
+  "/current",
+  passportCall("jwt"),
+  authorization(["user", "admin"]),
+  (req, res) => {
+    let user = new userDTO(req.user);
+    res.render("profile", {
+      user: user,
+    });
+  }
+);
+
+//Chat
+viewsRouter.get(
+  "/chat",
+  passportCall("jwt"),
+  authorization("user"),
+  (req, res) => {
+    res.render("chat", {
+      title: "Chat",
+      user: req.user,
+    });
+  }
+);
+
+//Products
+viewsRouter.get(
+  "/products",
+  passportCall("jwt"),
+  authorization(["admin", "user"]),
+  async (req, res) => {
+    const { page, limit, sort } = req.query;
+    const products = await productsService.getAll(limit, page, sort);
+    res.render("products", {
+      title: "Products",
+      products,
+      user: req.user,
+    });
+  }
+);
+
+//Purchase successfull
+viewsRouter.get(
+  "/successPurchase",
+  passportCall("jwt"),
+  authorization("user"),
+  (req, res) => {
+    res.render("success", {
+      title: "Success Purchase",
+      user: req.user,
     });
   }
 );

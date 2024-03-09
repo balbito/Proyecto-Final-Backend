@@ -1,6 +1,7 @@
 import userModel from "../models/users.model.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import { generateJWToken } from "../utils/passport.js";
+import logger from "../utils/logger.js";
 
 export const githubRegister = async (req, res) => {};
 
@@ -14,7 +15,6 @@ export const githubCallback = async (req, res) => {
     id: user._id,
   };
   const access_token = generateJWToken(tokenUser);
-  console.log(access_token);
 
   res.cookie("jwtCookieToken", access_token, {
     maxAge: 600000,
@@ -24,7 +24,7 @@ export const githubCallback = async (req, res) => {
 };
 
 export const register = async (req, res) => {
-  console.log("Registering user");
+  logger.info("Registering user");
   res.status(201).send({ status: "success", message: "Success creating user" });
 };
 
@@ -32,17 +32,15 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userModel.findOne({ email: email });
-    console.log("User found for login:");
-    console.log(user);
     if (!user) {
-      console.warn("No user with provided email: " + email);
+      logger.error("No user with provided email: " + email);
       return res.status(204).send({
         error: "Not found",
         message: "No user found with provided email: " + email,
       });
     }
     if (!isValidPassword(user, password)) {
-      console.warn("Invalid credentials");
+      logger.error("Invalid credentials");
       return res.status(401).send({
         status: "error",
         error: "Invalid credentials",
@@ -56,7 +54,6 @@ export const login = async (req, res) => {
       id: user._id,
     };
     const access_token = generateJWToken(tokenUser);
-    console.log(access_token);
 
     res.cookie("jwtCookieToken", access_token, {
       maxAge: 600000,
@@ -64,12 +61,12 @@ export const login = async (req, res) => {
     });
     res.redirect("/products");
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return res.status(500).send({ status: "error", error: "Intern app error" });
   }
 };
 
 export const logout = async (req, res) => {
   res.clearCookie("jwtCookieToken");
-  res.redirect("/users/login");
+  res.redirect("/login");
 };

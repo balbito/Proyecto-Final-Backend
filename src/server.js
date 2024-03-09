@@ -12,14 +12,13 @@ import initializePassport from "./config/userConfig.js";
 import { ProductRouter } from './routes/api/products.router.js';
 import { CartsRouter } from './routes/api/carts.router.js';
 import { viewsRouter } from './routes/views/views.router.js';
-import { adminRouter } from './routes/views/admin.views.routes.js';
 import ticketRouter from './routes/api/tickets.router.js';
 import emailRouter from './routes/api/email.router.js';
 import usersRouter from './routes/api/users.router.js';
-import userViewRouter from './routes/views/users.views.router.js';
 import jwtRouter from './routes/api/jwt.router.js';
-import githubLoginViewsRouter from './routes/views/github-login.views.routes.js';
 import actionRouter from './routes/api/users.actions.routes.js';
+import loggerRouter from "./routes/api/logger.router.js";
+import fakeUserRouter from "./routes/api/fakeUser.router.js"
 
 // Assets imports:
 import { Server } from 'socket.io';
@@ -31,6 +30,9 @@ import { messagesService } from './services/service.js';
 import config from './config/config.js';
 import MongoSingleton from "./config/mongodb_Singleton.js";
 import cors from 'cors';
+import compression from 'express-compression';
+import { addLogger } from './utils/logger.js';
+import logger from './utils/logger.js';
 
 // SERVER
 const app = express();
@@ -45,6 +47,15 @@ app.use(express.urlencoded({ extended: true }));
 initializePassport();
 app.use(passport.initialize());
 app.use(cors());
+app.use(
+  compression({
+    brotli: {
+      enabled: true,
+      zlib: {},
+    },
+  })
+);
+app.use(addLogger);
 
 //Handlebars
 app.engine(
@@ -90,27 +101,25 @@ app.use("/api/jwt", jwtRouter);
 app.use("/api/actions", actionRouter);
 app.use("/api/email", emailRouter);
 app.use("/api/tickets", ticketRouter);
+app.use("/api/loggerTest", loggerRouter);
+app.use("/api/fakeUser", fakeUserRouter);
 
 
 
 // VIEWROUTER
 app.use("/", viewsRouter);
-app.use("/users", userViewRouter);
-app.use("/github", githubLoginViewsRouter);
-app.use("/admin", adminRouter);
 
 
+//Socket
 io.on("connection", (socket) => {
-  console.log("client connected" + socket.id);
+  logger.info("New client connected: " + socket.id);
 
   socket.on("message", async (data) => {
-    // servidor recibe el mensaje
-    console.log(data);
-    await messagesService.createMessage(data)
+    logger.info(data);
+    await messagesService.create(data);
   });
 
   socket.on("disconnect", () => {
-    console.log("Client disconnected" + socket.id);
-  })
-
+    logger.info("Client disconnected: " + socket.id);
+  });
 });

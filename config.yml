@@ -1,0 +1,40 @@
+config:
+  plugin:
+    metrics-by-endpoint: {}
+  target: "http:localhost:8080"
+  phases:
+    - duration: 20
+      arrivalRate: 10
+scenarios:
+  - name: "Sessions flow (register + login)"
+    flow:
+      - log: "Test user variables creation"
+      - get:
+          url: "/api/fakeUser"
+          capture:
+            - json: "$.first_name"
+              as: "first_name"
+            - json: "$.last_name"
+              as: "last_name"
+            - json: "$.email"
+              as: "email"
+            - json: "$.age"
+              as: "age"
+            - json: "$.password"
+              as: "password"
+      - log: "Registering user:"
+      - post:
+          url: "/api/jwt/register"
+          json:
+            first_name: "{{first_name}}"
+            last_name: "{{last_name}}"
+            email: "{{email}}"
+            age: "{{age}}"
+            password: "{{password}}"
+      - think: 2
+      - log: "Login user"
+      - post:
+          url: "/api/jwt/login"
+          json:
+            email: "{{email}}"
+            password: "{{password}}"

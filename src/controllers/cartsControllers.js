@@ -1,19 +1,9 @@
 import { cartService } from "../services/service.js";
 import userModel from "../models/users.model.js";
-import nodemailer from "nodemailer";
-import config from "../config/config.js";
 import __dirname from "../utils/utils.js";
 import ticketModel from "../models/ticket.model.js";
+import { sendEmailWithTicket } from "../utils/email.js";
   
-//Transport config
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  port: 587,
-  auth: {
-    user: config.gmailAccount,
-    pass: config.gmailAppPassword,
-  },
-});
 
 export const getCartsController = async (req, res) => {
   try {
@@ -110,35 +100,5 @@ export const purchaseController = async (req, res) => {
     res.json(cart);
   } catch (error) {
     res.status(500).json({ error: error.message });
-  }
-};
-
-const sendEmailWithTicket = async (email, ticket) => {
-  try {
-    const mailOptions = {
-      from: "Ecommerce - " + config.gmailAccount,
-      to: email,
-      subject: "Order Confirmation",
-      html: `<div>
-                <h1>Your Order Details</h1>
-                <p>Order ID: ${ticket._id}</p>
-                <p>Total Amount: ${ticket.amount}</p>
-                <p>Purchased Products:</p>
-                <ul>
-                  ${ticket.products
-                    .map(
-                      (product) =>
-                        `<li>ProductId: ${product.productId}, Quantity:${product.quantity}</li>`
-                    )
-                    .join("")}
-                </ul>
-            </div>`,
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log("Order confirmation email sent to: " + email);
-  } catch (error) {
-    console.error("Error sending email:", error);
-    throw new Error("Error sending email: " + error.message);
   }
 };

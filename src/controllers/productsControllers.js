@@ -1,4 +1,17 @@
 import { productsService } from "../services/service.js";
+import CustomError from "../services/errors/CustomError.js";
+import { generateProductErrorInfo } from "../services/errors/messages/product-creation-error.message.js";
+import { generateProducts } from "../utils/fakeProducts.js";
+import logger from "../utils/logger.js";
+
+export const generateMockProductsController = async (req, res) => {
+  try {
+    let products = generateProducts();
+    res.send({ status: "success", payload: products });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 export const getProductsController = async (req, res) => {
   const { limit, page, sort } = req.query;
@@ -24,12 +37,34 @@ export const getProductController = async (req, res) => {
 };
 
 export const postProductController = async (req, res) => {
-  const product = req.body;
+  const reqProduct = req.body;
   try {
-    await productsService.create(product);
-    res.json(product);
+    if (
+      reqProduct.title === undefined ||
+      reqProduct.description === undefined ||
+      reqProduct.code === undefined ||
+      reqProduct.price === undefined ||
+      reqProduct.stock === undefined ||
+      reqProduct.category === undefined ||
+      reqProduct.thumbnails === undefined
+    ) {
+      CustomError.createError({
+        name: "Product creation error",
+        cause: generateProductErrorInfo(reqProduct),
+        message: "Invalid property error",
+        code: EErrors.INVALID_TYPES_ERROR,
+      });
+    }
+
+    await productsService.create(reqProduct);
+    res.json(reqProduct);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    logger.error(error);
+    res.status(400).json({
+      error: error.name,
+      message: error.message,
+      code: error.code,
+    });
   }
 };
 

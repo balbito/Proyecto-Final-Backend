@@ -1,4 +1,5 @@
 import ticketModel from "../models/ticket.model.js";
+import logger from "../utils/logger.js";
 
 export default class TicketService {
   async getAllTickets() {
@@ -6,7 +7,7 @@ export default class TicketService {
       const tickets = await ticketModel.find();
       return tickets;
     } catch (error) {
-      console.error("Error consulting tickets");
+      logger.error("Error consulting tickets");
     }
   }
 
@@ -18,7 +19,7 @@ export default class TicketService {
       }
       return ticket;
     } catch (error) {
-      console.error("Error consulting ticket with ID: " + tid);
+      logger.error("Error consulting ticket with ID: " + tid);
     }
   }
 
@@ -30,7 +31,7 @@ export default class TicketService {
       }
       return { message: "Ticket deleted" };
     } catch (error) {
-      console.error("Error deleting ticket with ID: " + tid);
+      logger.error("Error deleting ticket with ID: " + tid);
     }
   }
 }

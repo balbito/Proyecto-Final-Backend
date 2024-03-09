@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import config from "../config/config.js";
 import __dirname from "../utils/utils.js";
+import logger from "../utils/logger.js";
 
 //Transport config
 const transporter = nodemailer.createTransport({
@@ -15,9 +16,9 @@ const transporter = nodemailer.createTransport({
 //Gmail connection verification
 transporter.verify(function (error, success) {
   if (error) {
-    console.log(error);
+    logger.info(error);
   } else {
-    console.log("Server is ready to take our messages");
+    logger.info("Server is ready to take our messages");
   }
 });
 
@@ -52,14 +53,14 @@ export const sendEmail = (req, res) => {
   try {
     let result = transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        logger.info(error);
         res.status(400).send({ message: "Error", payload: error });
       }
-      console.log("Message sent: %s", info.messageId);
+      logger.info("Message sent: %s", info.messageId);
       res.send({ message: "Success", payload: info });
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.status(500).send({
       error: error,
       message: "Unable to send email from: " + config.gmailAccount,
@@ -73,15 +74,15 @@ export const sendEmailWithAttachments = (req, res) => {
       mailOptionsWithAttachments,
       (error, info) => {
         if (error) {
-          console.log(error);
+          logger.info(error);
           res.status(400).send({ message: "Error", payload: error });
         }
-        console.log("Message sent: %s", info.messageId);
+        logger.info("Message sent: %s", info.messageId);
         res.send({ message: "Success", payload: info });
       }
     );
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.status(500).send({
       error: error,
       message: "Unable to send email from: " + config.gmailAccount,
