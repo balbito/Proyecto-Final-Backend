@@ -52,6 +52,7 @@ export const login = async (req, res) => {
       age: user.age,
       role: user.role,
       id: user._id,
+      cart: user.cart,
     };
     const access_token = generateJWToken(tokenUser);
 

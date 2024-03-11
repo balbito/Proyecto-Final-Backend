@@ -17,7 +17,7 @@ form.addEventListener("submit", (e) => {
     if (result.status === 201) {
       result.json();
       alert("Success creating user");
-      window.location.replace("/users/login");
+      window.location.replace("/login");
     } else {
       alert("Error creating user");
     }

@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     confirmCartBtn.addEventListener("click", async function (event) {
       const cartId = confirmCartBtn.dataset.cartId;
       try {
-        const response = await fetch(`/api/carts/${cartId}/purchase`, {
+        const response = await fetch(`/api/carts/purchase`, {
           method: "POST",
         });
   

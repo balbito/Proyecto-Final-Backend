@@ -91,7 +91,7 @@ export const deleteCartController = async (req, res) => {
 
 export const purchaseController = async (req, res) => {
   try {
-    let cid = req.params.cid;
+    let cid = req.user.cart;
     let cart = await cartService.purchase(cid);
     const user = await userModel.findById(cart.userId);
     let ticket = await ticketModel.findOne({ purchaser: user.email });

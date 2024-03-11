@@ -81,7 +81,7 @@ CartsRouter.delete(
 
 //confirm purchase
 CartsRouter.post(
-  "/:cid/purchase",
+  "/purchase",
   passportCall("jwt"),
   authorization("user"),
   purchaseController

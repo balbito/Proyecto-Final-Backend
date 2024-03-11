@@ -5,6 +5,7 @@ import jwtStrategy from "passport-jwt";
 import userModel from "../models/users.model.js";
 import { createHash } from "../utils/bcrypt.js";
 import config from "./config.js";
+import { createCart } from "../utils/utils.js";
 
 const privateKey = config.privateKey;
 
@@ -97,6 +98,8 @@ const initializePassport = () => {
           if (email === "adminCoder@coder.com") {
             role = "admin";
           }
+          let cart = {};
+          const cartId = await createCart(cart)
           const newUser = {
             first_name,
             last_name,
@@ -105,6 +108,7 @@ const initializePassport = () => {
             password: createHash(password),
             loggedBy: "App",
             role,
+            cart: cartId,
           };
           const result = await userModel.create(newUser);
           return done(null, result);
