@@ -14,7 +14,9 @@ import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
 
 const CartsRouter = Router();
-
+const auxiliar = (req, res) => {
+    console.log(purchaseController)
+}
 //Get carts
 CartsRouter.get(
   "/",
@@ -81,10 +83,10 @@ CartsRouter.delete(
 
 //confirm purchase
 CartsRouter.post(
-  "/purchase",
+  "/compra",
   passportCall("jwt"),
   authorization("user"),
-  purchaseController
+  auxiliar
 );
 
 export { CartsRouter };

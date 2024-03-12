@@ -91,13 +91,15 @@ export const deleteCartController = async (req, res) => {
 
 export const purchaseController = async (req, res) => {
   try {
-    let cid = req.user.cart;
-    let cart = await cartService.purchase(cid);
-    const user = await userModel.findById(cart.userId);
-    let ticket = await ticketModel.findOne({ purchaser: user.email });
+    console.log("entre al controller");
+    let user = req.user;
+    let cid = user.cart;
+    let ticket = await cartService.purchase(cid, user);
+    console.log("llame al purchase", ticket)
+    req.logger.info(ticket)
 
     await sendEmailWithTicket(user.email, ticket);
-    res.json(cart);
+    res.status(200).send("Compra realizada exitosamente:" + ticket);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

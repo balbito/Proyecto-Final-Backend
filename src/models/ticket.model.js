@@ -1,10 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const ticketSchema = new Schema({
-  code: {
-    type: String,
-    unique: true,
-  },
+  
   purchase_dateTime: String,
   amount: Number,
   purchaser: String,

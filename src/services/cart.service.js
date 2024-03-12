@@ -2,6 +2,7 @@ import { cartModel } from "../models/carts.model.js";
 import { productModel } from "../models/products.model.js";
 import ticketModel from "../models/ticket.model.js";
 import userModel from "../models/users.model.js";
+import logger from "../utils/logger.js";
 
 export default class CartService {
   async getAllCarts() {
@@ -98,63 +99,21 @@ export default class CartService {
     }
   }
 
-  async purchase(id) {
-    try {
-      let cart = await cartModel.findById(id);
-      if (!cart) {
-        throw new Error("Cart not found");
-      }
-
-      let purchasedProducts = [];
-      let notPurchasedProducts = [];
-      let total = 0;
-
-      for (const cartProduct of cart.products) {
-        const productId = cartProduct.productId._id;
-        const product = await productModel.findById(productId);
-        if (!product) {
-          throw new Error(`Product with ID ${productId} not found`);
-        }
-        if (product.stock >= cartProduct.quantity) {
-          product.stock -= cartProduct.quantity;
-          total += product.price * cartProduct.quantity;
-          await product.save();
-          purchasedProducts.push({
-            productId: productId,
-            quantity: cartProduct.quantity,
-          });
-        } else {
-          notPurchasedProducts.push({
-            productId: productId,
-            quantity: cartProduct.quantity,
-          });
-        }
-      }
-
-      cart.products = cart.products.filter((cartProduct) => {
-        return !purchasedProducts.some((purchasedProduct) => {
-          return purchasedProduct.productId.equals(cartProduct.productId._id);
-        });
-      });
-
-      await cart.save();
-
-      const user = await userModel.findById(cart.userId);
-      let ticket = {
-        code: ticket.code,
-        purchase_dateTime: new Date().toString(),
-        amount: total,
+  async purchase(cid, user) {
+      const ticketPrueba = {}
+      console.log("entre al purchase")
+      const cart = await cartModel.findById(cid)
+      console.log(cart)
+      const ticket = {
+        purchase_dateTime: "18/9/2000",
+        amount: 0,
         purchaser: user.email,
-        products: purchasedProducts,
-      };
-
-      if (purchasedProducts.length > 0) {
-        await ticketModel.create(ticket);
+        products: cart.products,
       }
-
-      return cart;
-    } catch (error) {
-      throw new Error("Error purchasing: " + error.message);
-    }
+      console.log(ticket)
+      const newTicket = await ticketModel.create(ticketPrueba)
+      console.log(newTicket);
+      return newTicket;
+    
   }
 }

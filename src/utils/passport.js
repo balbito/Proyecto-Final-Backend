@@ -34,8 +34,6 @@ export const authToken = (req, res, next) => {
 
 export const passportCall = (strategy) => {
   return async (req, res, next) => {
-    console.log("Calling strategy: ");
-    console.log(strategy);
     passport.authenticate(strategy, function (err, user, info) {
       if (err) return next(err);
       if (!user) {
@@ -43,9 +41,8 @@ export const passportCall = (strategy) => {
           .status(401)
           .send({ error: info.messages ? info.messages : info.toString() });
       }
-      console.log("User obtained by strategy: ");
-      console.log(user);
       req.user = user;
+
       next();
     })(req, res, next);
   };
