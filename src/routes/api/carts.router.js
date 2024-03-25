@@ -14,9 +14,6 @@ import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
 
 const CartsRouter = Router();
-const auxiliar = (req, res) => {
-    console.log(purchaseController)
-}
 //Get carts
 CartsRouter.get(
   "/",
@@ -43,9 +40,9 @@ CartsRouter.post(
 
 //post product in cart
 CartsRouter.post(
-  "/:cid/product/:pid",
+  "/product/:pid",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "admin", "premium"]),
   postProductInCartController
 );
 
@@ -59,9 +56,9 @@ CartsRouter.put(
 
 //put product quantity in  cart
 CartsRouter.put(
-  "/:cid/products/:pid",
+  "/products/:pid",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "admin"]),
   putProductQuantityInCartController
 );
 
@@ -77,16 +74,16 @@ CartsRouter.delete(
 CartsRouter.delete(
   "/:cid/products/:pid",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "admin"]),
   deleteProductFromCartController
 );
 
 //confirm purchase
 CartsRouter.post(
-  "/compra",
+  "/ticket/purchase",
   passportCall("jwt"),
-  authorization("user"),
-  auxiliar
+  authorization(["user", "admin"]),
+  purchaseController
 );
 
 export { CartsRouter };

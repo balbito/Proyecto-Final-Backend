@@ -29,6 +29,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  console.log("entre al controller")
   const { email, password } = req.body;
   try {
     const user = await userModel.findOne({ email: email });
@@ -55,9 +56,10 @@ export const login = async (req, res) => {
       cart: user.cart,
     };
     const access_token = generateJWToken(tokenUser);
+    console.log(access_token)
 
     res.cookie("jwtCookieToken", access_token, {
-      maxAge: 600000,
+      maxAge: 600000*10,
       httpOnly: true,
     });
     res.redirect("/products");

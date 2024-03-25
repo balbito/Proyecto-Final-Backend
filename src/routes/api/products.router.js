@@ -20,7 +20,6 @@ ProductRouter.get("/mockingproducts", generateMockProductsController);
 ProductRouter.get(
   "/",
   passportCall("jwt"),
-  authorization("admin"),
   getProductsController
 );
 
@@ -28,7 +27,6 @@ ProductRouter.get(
 ProductRouter.get(
   "/:pid",
   passportCall("jwt"),
-  authorization("admin"),
   getProductController
 );
 
@@ -36,7 +34,7 @@ ProductRouter.get(
 ProductRouter.post(
   "/",
   passportCall("jwt"),
-  authorization("admin"),
+  authorization(["admin", "premium"]),
   postProductController
 );
 
@@ -44,7 +42,7 @@ ProductRouter.post(
 ProductRouter.put(
   "/:pid",
   passportCall("jwt"),
-  authorization("admin"),
+  authorization(["admin", "premium"]),
   putProductController
 );
 
@@ -52,7 +50,7 @@ ProductRouter.put(
 ProductRouter.delete(
   "/:pid",
   passportCall("jwt"),
-  authorization("admin"),
+  authorization(["admin", "premium"]),
   deleteProductController
 );
 

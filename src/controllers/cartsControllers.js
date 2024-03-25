@@ -2,7 +2,8 @@ import { cartService } from "../services/service.js";
 import userModel from "../models/users.model.js";
 import __dirname from "../utils/utils.js";
 import ticketModel from "../models/ticket.model.js";
-import { sendEmailWithTicket } from "../utils/email.js";
+import { productsService } from "../services/service.js";
+// import { sendEmailWithTicket } from "../utils/email.js";
   
 
 export const getCartsController = async (req, res) => {
@@ -36,9 +37,14 @@ export const postCartController = async (req, res) => {
 
 export const postProductInCartController = async (req, res) => {
   try {
-    let cid = req.params.cid;
+    let cid = req.user.cart;
     let pid = req.params.pid;
+    const product = await productsService.getOne(pid)
+    if(product.owner == req.user.email) {
+      throw new Error ("No podes agregar tu propio producto") 
+    }
     let cart = await cartService.addProduct(cid, pid);
+
     res.json(cart);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -58,7 +64,7 @@ export const putProductsInCartController = async (req, res) => {
 
 export const putProductQuantityInCartController = async (req, res) => {
   try {
-    let cid = req.params.cid;
+    let cid = req.user.cart;
     let pid = req.params.pid;
     let quantity = req.body.quantity;
     let cart = await cartService.updateProductQuantity(cid, pid, quantity);
@@ -91,14 +97,13 @@ export const deleteCartController = async (req, res) => {
 
 export const purchaseController = async (req, res) => {
   try {
-    console.log("entre al controller");
     let user = req.user;
+    console.log(user)
     let cid = user.cart;
     let ticket = await cartService.purchase(cid, user);
-    console.log("llame al purchase", ticket)
     req.logger.info(ticket)
 
-    await sendEmailWithTicket(user.email, ticket);
+    
     res.status(200).send("Compra realizada exitosamente:" + ticket);
   } catch (error) {
     res.status(500).json({ error: error.message });

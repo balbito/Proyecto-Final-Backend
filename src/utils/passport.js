@@ -9,6 +9,10 @@ export const generateJWToken = (user) => {
   return jwt.sign({ user }, privateKey, { expiresIn: "24h" });
 };
 
+export const generateResetPassword = (user) => {
+  return jwt.sign({ user }, privateKey, { expiresIn: "1h" });
+};
+
 export const authToken = (req, res, next) => {
   //Saving JWT in authorization headers
   const authHeader = req.headers.authorization;
@@ -47,3 +51,8 @@ export const passportCall = (strategy) => {
     })(req, res, next);
   };
 };
+
+export const JWTVerified = (token, firma) => {
+   const payload = jwt.verify(token, firma)
+   return payload
+}

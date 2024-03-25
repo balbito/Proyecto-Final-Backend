@@ -52,7 +52,7 @@ export default class CartService {
       throw new Error("Product not found");
     }
     const productIndex = cart.products.findIndex(
-      (product) => product.products._id.toString() === productId
+      (product) => product.productId._id.toString() == productId
     );
     if (productIndex === -1) {
       throw new Error("Product not found in the cart");
@@ -82,7 +82,7 @@ export default class CartService {
       throw new Error("Product not found");
     }
     const existingProduct = cart.products.find((product) =>
-      product.products.equals(productId)
+      product.productId.equals(productId)
     );
     if (existingProduct) {
       existingProduct.quantity = quantity;
@@ -98,22 +98,55 @@ export default class CartService {
       throw new Error("Cart not found");
     }
   }
-
+  async deleteAllProducts(cid) {
+    const cart = await cartModel.findById(cid)
+    cart.products = [];
+    cart.save();
+    return true
+  }
   async purchase(cid, user) {
-      const ticketPrueba = {}
+    try {
       console.log("entre al purchase")
-      const cart = await cartModel.findById(cid)
-      console.log(cart)
+      const cart = await cartModel.findOne({_id: cid}).populate("products.productId")
+      if (cart.products.length == 0) {
+        return "carrito esta vacio"
+      }
+      // verificacion de productos disponibles
+      for (let i = 0; i < cart.products.length; i++)  {
+        if(cart.products[i].productId.stock == 0  || cart.products[i].productId.status == false) {
+          this.deleteProductFromCart(cid, cart.products[i].productId._id)
+          return "productos no disponible, se han removido del carrito"
+        }
+      }
+      // recorremos para sumar el precio
+      let totalPrice = 0
+      for (let i = 0; i < cart.products.length; i++)  {
+        console.log(cart.products[i].productId.price)
+         totalPrice += cart.products[i].productId.price ;
+      }
+      // creando ticket
       const ticket = {
-        purchase_dateTime: "18/9/2000",
-        amount: 0,
+        purchase_dateTime: new Date(),
+        amount: totalPrice,
         purchaser: user.email,
         products: cart.products,
       }
-      console.log(ticket)
-      const newTicket = await ticketModel.create(ticketPrueba)
-      console.log(newTicket);
-      return newTicket;
-    
+      const newTicket = await ticketModel.create(ticket)
+      // Baja el stock
+      for (let i = 0; i < cart.products.length; i++)  {
+
+         cart.products[i].productId.stock = cart.products[i].productId.stock - cart.products[i].quantity;
+         cart.products[i].productId.save();
+         await productModel.findByIdAndUpdate(cart.products[i].productId._id, cart.products[i].productId)
+         
+      }
+      
+      
+      this.deleteAllProducts(cid)
+      return newTicket;      
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }

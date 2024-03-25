@@ -9,7 +9,7 @@ program
   .option("--mode <mode>", "Work mode", "dev");
 program.parse();
 
-const enviroment = program.opts().mode;
+const enviroment = "prod";
 
 dotenv.config({
   path:

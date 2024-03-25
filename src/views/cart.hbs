@@ -63,6 +63,10 @@
                           aria-label="Quantity"
                           data-product-id="{{this.productId._id}}"
                         />
+                        <button
+                          data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
+                          class="btn btn-dark btn-confirm-quantity rounded" 
+                        >Confirm Quantity</button>
                       </div>
                       <button
                         data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"

@@ -12,4 +12,10 @@ export default class UsersRepository {
     delete = (userId) => {
       return this.dao.deleteUser(userId);
     };
+    changeRole = (userId) => {
+      return this.dao.changeRole(userId);
+    }
+    getUserByEmail = (email) => {
+      return this.dao.getUserByEmail(email);
+    }
   }

@@ -26,7 +26,7 @@ export default class CartsRepository {
     updateProductQuantity = (cartId, productId, quantity) => {
       return this.dao.updateProductQuantity(cartId, productId, quantity);
     };
-    purchase = (cid) => {
-      return this.dao.purchase(cid);
+    purchase = (cid, user) => {
+      return this.dao.purchase(cid, user);
     };
   }

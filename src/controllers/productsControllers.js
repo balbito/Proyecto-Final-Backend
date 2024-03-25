@@ -38,27 +38,13 @@ export const getProductController = async (req, res) => {
 };
 
 export const postProductController = async (req, res) => {
-  const reqProduct = req.body;
+  const {title, description, code, price, stock, category, thumbnails} = req.body;
   try {
-    if (
-      reqProduct.title === undefined ||
-      reqProduct.description === undefined ||
-      reqProduct.code === undefined ||
-      reqProduct.price === undefined ||
-      reqProduct.stock === undefined ||
-      reqProduct.category === undefined ||
-      reqProduct.thumbnails === undefined
-    ) {
-      CustomError.createError({
-        name: "Product creation error",
-        cause: generateProductErrorInfo(reqProduct),
-        message: "Invalid property error",
-        code: EErrors.INVALID_TYPES_ERROR,
-      });
-    }
-
-    await productsService.create(reqProduct);
-    res.json(reqProduct);
+    let email = req.user.email;
+    console.log(email)
+    const newProduct = { title, description, code, price, stock, category, thumbnails, owner: email }
+    await productsService.create(newProduct);
+    res.json(newProduct);
   } catch (error) {
     logger.error(error);
     res.status(400).json({
@@ -73,6 +59,13 @@ export const putProductController = async (req, res) => {
   const pid = req.params.pid;
   const product = req.body;
   try {
+    const productToModified = await productsService.getOne(pid)
+    if(req.user.role !== "admin") {
+      if(productToModified.owner !== req.user.email){
+        throw  new Error ("No estas autorizado para modificar el producto") 
+      }
+       
+    }
     await productsService.update(pid, product);
     if (!product) return res.status(404).send("No product found");
     res.json(product);

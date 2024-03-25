@@ -4,7 +4,7 @@ import __dirname from "../utils/utils.js";
 import logger from "../utils/logger.js";
 
 //Transport config
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   service: "gmail",
   port: 587,
   auth: {

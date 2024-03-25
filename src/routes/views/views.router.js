@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authorization } from "../../utils/auth.js";
+import { authorization, tokenResetPassword } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
 import { cartService, productsService, ticketsService, usersService } from "../../services/service.js";
 import userDTO from "../../services/dto/user.dto.js";
@@ -45,7 +45,7 @@ viewsRouter.get(
 viewsRouter.get(
   "/cartmanager",
   passportCall("jwt"),
-  authorization("admin"),
+  authorization("user"),
   async (req, res) => {
     const carts = await cartService.getAll();
     res.render("cartManager", {
@@ -137,7 +137,7 @@ viewsRouter.get(
 viewsRouter.get(
   "/products",
   passportCall("jwt"),
-  authorization(["admin", "user"]),
+  authorization(["admin", "user", "premium"]),
   async (req, res) => {
     const { page, limit, sort } = req.query;
     const products = await productsService.getAll(limit, page, sort);
@@ -162,4 +162,14 @@ viewsRouter.get(
   }
 );
 
+viewsRouter.get("/recoverPassword",
+async (req, res) => {
+  res.render("password")
+})
+
+viewsRouter.get("/changePassword",
+tokenResetPassword,
+async (req, res) => {
+  res.render("passwordchangeform")
+})
 export { viewsRouter };

@@ -12,14 +12,12 @@ const cartSchema = new Schema({
 
 });
 
-
-
 cartSchema.pre("find", function () {
-    this.populate("products");
+    this.populate("products.productId");
 });
 
 cartSchema.pre("findOne", function () {
-    this.populate("products");
+    this.populate("products.productId");
   });
 
 const cartModel = model("carts", cartSchema);

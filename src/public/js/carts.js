@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const confirmCartBtn = document.getElementById("confirmCartBtn");
 
-  
+    
     deleteButtons.forEach((button) => {
       button.addEventListener("click", async function (event) {
         const cartId = button.dataset.cartId;
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
         try {
           const response = await fetch(
-            `/api/actions/${cartId}/products/${productId}`,
+            `/api/carts/products/${productId}`,
             {
               method: "PUT",
               headers: {
@@ -67,11 +67,11 @@ document.addEventListener("DOMContentLoaded", function () {
     confirmCartBtn.addEventListener("click", async function (event) {
       const cartId = confirmCartBtn.dataset.cartId;
       try {
-        const response = await fetch(`/api/carts/purchase`, {
+        const response = await fetch(`/api/carts/ticket/purchase`, {
           method: "POST",
         });
-  
-        if (response.ok) {
+        
+        if (response.status == 200) {
           console.log("Purchase successful");
           window.location.replace("/successPurchase");
         } else {
