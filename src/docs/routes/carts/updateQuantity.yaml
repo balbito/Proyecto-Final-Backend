@@ -1,0 +1,41 @@
+paths:
+  /api/carts/product/{pid}:
+    put:
+      summary: Actualizar la cantidad de un producto en el carrito, indicando el carrito con su cid y el producto con su pid.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito al que desea agregar un producto.
+          schema:
+            $type: String  
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que desea agregar al carrito.
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/requestBodies/UpdatedQuantity"                      
+      responses:
+        "200":
+          description: Respuesta exitosa!
+          content:
+           text/plain:
+              schema:
+                type: object
+              example: {
+                mensaje: "
+                La cantidad del producto con id 65aea32b178d4978d3ba8f50 en el carrito con id 65f1e00c35f3c24821fb9a24 fue actualizada exitosamente."
+              }
+        "404":
+          description: Error. No se ha podido iactualizar la cantidad del producto al carrito. Se envío un dato no valido.
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso. 

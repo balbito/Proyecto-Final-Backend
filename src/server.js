@@ -1,6 +1,6 @@
 // Modules imports:
 import express from 'express';
-import handlebars from  'express-handlebars';
+import handlebars from 'express-handlebars';
 import Handlebars from 'handlebars';
 
 // Passport imports:
@@ -25,6 +25,8 @@ import { Server } from 'socket.io';
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import basePath from './utils/utils.js';
 import { messagesService } from './services/service.js';
+import swaggerUiExpress from "swagger-ui-express";
+import swaggerJSDoc from 'swagger-jsdoc';
 
 // Config imports:
 import config from './config/config.js';
@@ -57,6 +59,21 @@ app.use(
 );
 app.use(addLogger);
 
+// Swagger
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Documentacion API Adopme",
+      description: "Documentacion para uso de Swagger"
+    }
+  },
+  apis: [`${basePath}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+// Declaramos la API donde vamos a tener la parte grafica
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 //Handlebars
 app.engine(
   "hbs",
@@ -116,7 +133,10 @@ io.on("connection", (socket) => {
 
   socket.on("message", async (data) => {
     logger.info(data);
-    await messagesService.create(data);
+    let message = await messagesService.create(data);
+    let allMessage = await messagesService.getAll();
+
+    socket.emit("newmessage", allMessage)
   });
 
   socket.on("disconnect", () => {

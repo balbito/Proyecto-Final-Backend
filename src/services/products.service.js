@@ -4,7 +4,7 @@ export default class ProductService {
   async getAllProducts(limit, page, sort) {
     try {
       const options = {
-        limit: parseInt(limit) || 8,
+        limit: parseInt(limit) || 10,
         page: parseInt(page) || 1,
       };
 

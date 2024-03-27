@@ -1,0 +1,22 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos de la App.
+      tags: 
+       - Products
+      responses:
+       "200":
+         description: respuesta exitosa! se retorna todos los productos.
+         content:
+           application/json:
+             schema:
+               type: array
+               items:
+                 $ref: '#components/schemas/Product'
+       "400":
+         description: se envio un dato no valido.
+       "500":
+         description: error inesperado en el servidor, no se pudo manejar el proceso.
+
+
+    

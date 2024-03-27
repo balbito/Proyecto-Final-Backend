@@ -1,0 +1,33 @@
+paths:
+  /api/carts/{cid}:
+    put:
+      summary: Actualizar un carrito en la App. 
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que desea visualizar.
+          schema:
+            $type: String   
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/requestBodies/UpdatedCart"  
+      responses:
+        "200":
+          description: Carrito actualizado con exito!
+          content:
+           text/plain:
+              schema:
+                type: object
+              example: {
+                mensaje: "El carrito con id 65f1e00c35f3c24821fb9a24 fue actualizado exitosamente"
+              }
+        "404":
+          description: Error. No se ha podido actualizar el carrito.

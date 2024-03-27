@@ -1,0 +1,24 @@
+paths:
+  /api/products:
+    post:
+      summary: Crear un nuevo producto en la App. 
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/NewProduct"  
+      responses:
+        "200":
+          description: Producto creado con exito!
+          content:
+           text/plain:
+              schema:
+                type: object
+              example: {
+                mensaje: "El producto fue agregado con exito."
+              }
+        "404":
+          description: Error. No se ha podido crear el producto.

@@ -1,0 +1,40 @@
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por Mongo
+        products:
+          type: Array
+          items:
+            productId:
+              type: ObjectId
+              description: Id del producto
+            quantity: 
+              type: Number
+              minimun: 0
+              description: Cantidad del producto en el carrito
+            _id:
+              type: ObjectId
+              descrption: Id autogenerado por Mongo.
+      example:
+        productList: [{
+          productId: {
+            owner: admin,
+            _id: 65aea32b178d4978d3ba8f50,
+            title: Hamburguesa 4,
+            description: Hamburguesa con queso azul,
+            price: 5000,
+            thumbnail: 🍔,
+            code: abc123,
+            stock: 10,
+            status: true,
+            category: "alimentos"
+          },
+          quantity: 7,
+          _id: "65f1f4a48d598190185e39d8"
+
+        }]
+      

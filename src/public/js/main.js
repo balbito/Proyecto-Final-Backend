@@ -3,7 +3,7 @@ const socket = io();
 const sendButton = document.querySelector("#send-button");
 const user = document.querySelector("#user");
 const message = document.querySelector("#message");
-
+const allMessages = document.getElementById("messagebox");
 sendButton.addEventListener("click", (e) => {
   e.preventDefault();
   let newMessage = {
@@ -18,3 +18,10 @@ sendButton.addEventListener("click", (e) => {
   user.value = "";
   message.value = "";
 });
+
+socket.on("newmessage", (data) => {
+  console.log(data)
+  data.forEach(messages => {
+    allMessages.innerHTML(`<p>${messages}</p>`)
+  });
+})

@@ -1,0 +1,26 @@
+paths:
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito de la App, filtrando por su cid.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que desea visualizar.
+          schema:
+            $type: String  
+      responses:
+        "200":
+          description: Respuesta exitosa! Retorna un array con el detalle del carrito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "404":
+          description: Error. No se han encontrado el carrito. Se envío un dato no valido.
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso.   

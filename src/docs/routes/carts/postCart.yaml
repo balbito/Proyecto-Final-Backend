@@ -1,0 +1,24 @@
+paths: 
+  /api/carts/{uid}:
+    post:
+      summary: crear carrito en al App
+      tags:
+        - Carts
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Id del carrito
+          schema: 
+            $type: string
+      responses:
+        "200":
+          description: Carrito creado con exito!
+          content:
+            application/json:
+             schema:
+               type: array
+               items:
+                 $ref: '#components/schemas/Cart'
+        "404":
+          description: Error. No se ha podido crear el carrito. 

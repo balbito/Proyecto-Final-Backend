@@ -1,0 +1,12 @@
+components:
+  requestBodies:
+    UpdatedQuantity:
+      type: object
+      required:
+        - quantity
+      properties:
+        quantity:
+          type: number
+          description: Cantidad nueva de producto en el carrito.
+      example:
+       quantity: 2 
