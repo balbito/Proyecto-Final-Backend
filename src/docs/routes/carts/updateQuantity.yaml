@@ -1,5 +1,5 @@
 paths:
-  /api/carts/product/{pid}:
+  /api/carts/products/{pid}:
     put:
       summary: Actualizar la cantidad de un producto en el carrito, indicando el carrito con su cid y el producto con su pid.
       tags:
