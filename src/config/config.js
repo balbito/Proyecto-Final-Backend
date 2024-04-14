@@ -28,4 +28,5 @@ export default {
   privateKey: process.env.PRIVATE_KEY,
   gmailAccount: process.env.GMAIL_ACCOUNT,
   gmailAppPassword: process.env.GMAIL_APP_PASSWD,
+  cookieSecret: process.env.COOKIE_PARSER_SECRET
 };

@@ -108,7 +108,7 @@ mongoInstance();
 const io = new Server(httpServer);
 
 //Cookies
-app.use(cookieParser("CoderS3cr3tC0d3"));
+app.use(cookieParser(config.cookieSecret));
 
 // ROUTES
 app.use("/api/products", ProductRouter);

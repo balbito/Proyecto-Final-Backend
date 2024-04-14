@@ -4,7 +4,7 @@ import { usersService } from "../services/service.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 import { sendResetPasswordEmail } from "../utils/email.js";
 import { JWTVerified, generateResetPassword } from "../utils/passport.js";
-import nodemailer from "nodemailer";
+
 
 
 export const getUsersController = async (req, res) => {

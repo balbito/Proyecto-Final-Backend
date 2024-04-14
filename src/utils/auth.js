@@ -8,6 +8,7 @@ export const authorization = (role) => {
       if (!req.user)
         return res.status(401).send("Unauthorized: User not found in JWT");
       if (!role.includes(req.user.role)) {
+        console.log("prohibi el acceso")
         return res.status(403).send("Forbidden: No permises with provided rol.");
       }
       next();

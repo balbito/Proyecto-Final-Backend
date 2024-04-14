@@ -1,11 +1,15 @@
-import userModel from "../models/users.model.js";
+import UserService from "../services/users.service.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import { generateJWToken } from "../utils/passport.js";
 import logger from "../utils/logger.js";
+import { usersService } from "../services/service.js";
 
-export const githubRegister = async (req, res) => {};
+export const githubRegister = async (req, res) => {
+  res.send("exito")
+};
 
 export const githubCallback = async (req, res) => {
+  console.log("entre a githubcallback")
   const user = req.user;
   const tokenUser = {
     name: `${user.first_name} ${user.last_name}`,
@@ -14,6 +18,7 @@ export const githubCallback = async (req, res) => {
     role: user.role,
     id: user._id,
   };
+  console.log(tokenUser)
   const access_token = generateJWToken(tokenUser);
 
   res.cookie("jwtCookieToken", access_token, {
@@ -32,7 +37,7 @@ export const login = async (req, res) => {
   console.log("entre al controller")
   const { email, password } = req.body;
   try {
-    const user = await userModel.findOne({ email: email });
+    const user = await usersService.getUserByEmail(email);
     if (!user) {
       logger.error("No user with provided email: " + email);
       return res.status(204).send({

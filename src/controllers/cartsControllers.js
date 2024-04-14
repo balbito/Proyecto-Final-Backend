@@ -1,9 +1,7 @@
 import { cartService } from "../services/service.js";
-import userModel from "../models/users.model.js";
 import __dirname from "../utils/utils.js";
-import ticketModel from "../models/ticket.model.js";
 import { productsService } from "../services/service.js";
-// import { sendEmailWithTicket } from "../utils/email.js";
+
   
 
 export const getCartsController = async (req, res) => {
@@ -105,7 +103,7 @@ export const purchaseController = async (req, res) => {
     req.logger.info(ticket)
 
     
-    res.status(200).send("Compra realizada exitosamente:" + ticket);
+    res.status(200).send({message: "Compra realizada exitosamente", ticket: ticket});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

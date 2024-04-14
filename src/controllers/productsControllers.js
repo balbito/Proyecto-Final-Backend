@@ -1,7 +1,4 @@
 import { productsService } from "../services/service.js";
-import EErrors from "../services/errors/errors-enum.js";
-import CustomError from "../services/errors/CustomError.js";
-import { generateProductErrorInfo } from "../services/errors/messages/product-creation-error.message.js";
 import { generateProducts } from "../utils/fakeProducts.js";
 import logger from "../utils/logger.js";
 
