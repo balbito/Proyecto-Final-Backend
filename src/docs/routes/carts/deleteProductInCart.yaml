@@ -1,0 +1,33 @@
+paths:
+  /api/carts/{cid}/product/{pid}:
+    delete:
+      summary: Eliminar un producto  del carrito, indicando el cid del carrito y pid del producto.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que desea eliminar.
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que desea eliminar.
+          schema:
+            $type: String                
+      responses:
+        "200":
+          description: Respuesta exitosa! Producto eliminado del carrito correctamente .
+          content:
+           text/plain:
+              schema:
+                type: object
+              example: {
+                mensaje: "El producto con id 65aeadf36b453f347edf2116 fue eliminado exitosamente al carrito con id 65e65773c941d6f5838a6b30."
+              }
+        "404":
+          description: Error. No se ha podido eliminar el producto. Se envío un dato no valido.
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso. 

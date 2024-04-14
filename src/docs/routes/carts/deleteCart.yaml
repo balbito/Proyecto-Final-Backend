@@ -1,0 +1,27 @@
+paths:
+  /api/carts/{cid}:
+    delete:
+      summary: Eliminar un carrito de la App, filtrando por su cid.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que desea eliminar.
+          schema:
+            $type: String  
+      responses:
+        "200":
+          description: Respuesta exitosa! Producto eliminado correctamente .
+          content:
+           text/plain:
+              schema:
+                type: object
+              example: {
+                mensaje: "El carrito con id 66021450e5c6410df9524c8a ha sido vaciado con exito."
+              }
+        "404":
+          description: Error. No se ha podido eliminar producto. Se envío un dato no valido.
+        "500":
+          description: Error inesperado en el servidor, no se pudo manejar el proceso.   

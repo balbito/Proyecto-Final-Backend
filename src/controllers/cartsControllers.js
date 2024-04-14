@@ -7,6 +7,7 @@ import { productsService } from "../services/service.js";
   
 
 export const getCartsController = async (req, res) => {
+  console.log("entre")
   try {
     let carts = await cartService.getAll();
     res.json(carts);

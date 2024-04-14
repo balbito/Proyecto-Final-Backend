@@ -9,16 +9,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/requestBodies/NewProduct"  
+              $ref: "#/components/requestBodies/Product"  
       responses:
         "200":
           description: Producto creado con exito!
           content:
-           text/plain:
+            application/json:
               schema:
-                type: object
-              example: {
-                mensaje: "El producto fue agregado con exito."
-              }
+                $ref: "#components/schemas/Product"
+           
         "404":
           description: Error. No se ha podido crear el producto.
+      security:
+        - userAuth: []
+      securitySchemes:
+        userAuth:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+          description: JWT token obtained upon user authentication.

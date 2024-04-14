@@ -17,6 +17,23 @@ paths:
          description: se envio un dato no valido.
        "500":
          description: error inesperado en el servidor, no se pudo manejar el proceso.
+      security:
+        - userAuth: []
+      securitySchemes:
+        userAuth:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+          description: JWT token obtained upon user authentication.
+      description: |
+        This endpoint allows admin user to get all products from database.
+      x-codeSamples:
+        - lang: HTTP
+          source: |
+            # Example request with bearer token
+            curl -X GET "https://api.example.com/api/products" \
+            -H "Authorization: Bearer <token>"  
+
 
 
     

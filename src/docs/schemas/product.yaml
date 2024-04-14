@@ -2,14 +2,7 @@ components:
   schemas:
     Product:
       type: object
-      required:
-        - title
-        - description
-        - code
-        - price
-        - stock
-        - category
-        - thumbnails
+      
       properties:
         _id:
           type: ObjectId
@@ -41,7 +34,56 @@ components:
         owner:
           type: String
           description: Product owner (Default admin)
-      
+      required:
+        - title
+        - description
+        - code
+        - price
+        - stock
+        - category
+        - thumbnails
+      example:
+        owner: admin,
+        _id: 65aea32b178d4978d3ba8f4d,
+        title: Hamburguesa 1,
+        description: Hamburguesa con bacon,
+        price: 5000,
+        thumbnail: 🍔,
+        code: abc120,
+        stock: 0,
+        status: true,
+        category: "alimentos"
+  requestBodies:
+    Product:
+      type: object
+      properties:
+      title:
+        type: String
+        description: Product title
+      description:
+        type: String
+        description: Product description
+      code:
+        type: String
+        description: Product code (unique)
+      price:
+        type: Number
+        description: Product price
+      status:
+        type: Boolean
+        description: Product status
+      stock:
+        type: Number
+        description: Product stock
+      category:
+        type: String
+        description: Product category
+      thumbnails:
+        type: Array
+        description: Product thumbnails
+      owner:
+        type: String
+        description: Product owner (Default admin)
       example:
         owner: admin,
         _id: 65aea32b178d4978d3ba8f4d,
