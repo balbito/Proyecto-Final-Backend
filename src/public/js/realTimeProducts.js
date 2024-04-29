@@ -66,12 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
   
-    const updateProduct = async (productId) => {
+    const updateProduct = async (pid) => {
       const formData = new FormData(document.querySelector(".update-form"));
       const obj = {};
       formData.forEach((value, key) => (obj[key] = value));
       try {
-        const response = await fetch(`/api/products/${productId}`, {
+        const response = await fetch(`/api/products/${pid}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
   
-    const deleteProduct = async (productId) => {
+    const deleteProduct = async (pid) => {
       try {
-        const response = await fetch(`/api/products/${productId}`, {
+        const response = await fetch(`/api/products/${pid}`, {
           method: "DELETE",
         });
         if (response.ok) {

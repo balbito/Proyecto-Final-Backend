@@ -3,26 +3,26 @@
     <div class="col-lg-2 col-md-4 col-sm-12">
       <div class="card border-none">
         <img
-          src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png"
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
           class="w-16 h-16 object-cover rounded-circle img-thumbnail"
           alt="Imagen de perfil"
         />
         <form action="/current" method="get">
-          <input type="submit" value="View Profile" class="btn btn-dark mt-2" />
+          <input type="submit" value="Ver Perfil" class="btn btn-dark mt-2" />
         </form>
       </div>
     </div>
     <div class="col-md-8 col-sm-12 mt-4 mb-4">
       <div class="d-flex justify-content-between align-items-center">
         {{#if user}}
-          <h1>Welcome {{user.name}}</h1>
+          <h1>Bienvenido {{user.name}}</h1>
         {{else}}
-          <h1>Welcome Guest</h1>
+          <h1>Bienvenido invitado</h1>
         {{/if}}
-        <h2>Role: {{user.role}}</h2>
+        <h2>Rol: {{user.role}}</h2>
         {{#ifRoleEquals user.role "admin"}}
-          <form action="/manager" method="get">
-            <input type="submit" value="Manager" class="btn btn-dark" />
+          <form action="/admin" method="get">
+            <input type="submit" value="Admin" class="btn btn-dark" />
           </form>
         {{/ifRoleEquals}}
         <form action="/api/jwt/logout" method="post">
@@ -30,13 +30,12 @@
         </form>
       </div>
       <img
-        src="https://uxwing.com/wp-content/themes/uxwing/download/e-commerce-currency-shopping/order-placed-purchased-icon.png"
+        src="https://ouch-cdn2.icons8.com/df5KlKiehafTC_vERpkBAPzd0OquqHxS9s-Flo9yh2M/rs:fit:368:368/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTA4/L2U2YjgyZTZmLTkx/MjMtNGFkNC05NDRm/LThhNmZjNDA3OTFj/YS5wbmc.png"
         alt=""
         class="mx-auto"
       />
       <div class="alert alert-success mt-4 text-center" role="alert">
-        <strong>Congratulations!</strong>
-        Your order has been processed correctly.
+        <strong>¡Muchas gracias! Su compra ha sido exitosa!</strong>
       </div>
     </div>
   </div>

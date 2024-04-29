@@ -10,7 +10,7 @@ const router = Router();
 router.post(
   "/:productId",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "premium"]),
   async (req, res) => {
     try {
       const productId = req.params.productId;
@@ -39,6 +39,7 @@ router.post(
         user: req.user,
       });
     } catch (error) {
+      console.log(error);
       logger.error(error);
       res.status(500).send("Internal Server Error");
     }
@@ -48,7 +49,7 @@ router.post(
 router.delete(
   "/:cid/products/:pid",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "premium", "admin"]),
   async (req, res) => {
     try {
       const productId = req.params.pid;
@@ -71,7 +72,7 @@ router.delete(
 router.put(
   "/:cid/products/:pid",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "premium", "admin"]),
   async (req, res) => {
     try {
       const { cid, pid } = req.params;

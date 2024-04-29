@@ -5,10 +5,10 @@
         <div class="col-md-2">
           <div class="card border-none">
             <img
-              src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png"
-              class="w-16 h-16 object-cover rounded-circle img-thumbnail"
-              alt="Imagen de perfil"
-            />
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          class="w-16 h-16 object-cover rounded-circle img-thumbnail"
+          alt="Imagen de perfil"
+        />
           </div>
         </div>
         <div class="col-md-10 mt-4 mb-4">
@@ -24,7 +24,7 @@
             </div>
             <div>
               <form class="m-2" action="/products" method="get">
-                <input type="submit" value="Products" class="btn btn-dark" />
+                <input type="submit" value="Productos" class="btn btn-dark" />
               </form>
               <form class="m-2" action="/chat" method="get">
                 <input type="submit" value="Chat" class="btn btn-dark m-2" />
@@ -65,24 +65,26 @@
                         />
                         <button
                           data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
-                          class="btn btn-dark btn-confirm-quantity rounded" 
-                        >Confirm Quantity</button>
+                          class="btn btn-success btn-confirm-quantity rounded" 
+                        >Confirmar cantidad</button>
                       </div>
                       <button
                         data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
                         class="btn btn-danger btn-delete-product mt-2"
-                      >Delete</button>
+                      >Borrar producto</button>
                     </div>
                   </div>
                   <div class="collapse" id="productCollapse{{@index}}">
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item"><strong>Code:</strong>
+                      <li class="list-group-item"><strong>Descripcion:</strong>
+                        {{this.productId.description}}</li>
+                      <li class="list-group-item"><strong>Codigo:</strong>
                         {{this.productId.code}}</li>
-                      <li class="list-group-item"><strong>Price:</strong>
+                      <li class="list-group-item"><strong>Precio:</strong>
                         ${{this.productId.price}}</li>
                       <li class="list-group-item"><strong>Stock:</strong>
                         {{this.productId.stock}}</li>
-                      <li class="list-group-item"><strong>Category:</strong>
+                      <li class="list-group-item"><strong>Categoria:</strong>
                         {{this.productId.category}}</li>
                       <li class="list-group-item">
                         <strong>Thumbnails:</strong>
@@ -108,7 +110,7 @@
                     aria-expanded="false"
                     aria-controls="productCollapse{{@index}}"
                   >
-                    Show Details
+                    Detalles
                   </a>
                 </div>
               </div>
@@ -117,7 +119,7 @@
         </div>
       </div>
       <div class="card-footer text-center">
-        <button id="confirmCartBtn"  data-cart-id="{{cart._id}}" class="btn btn-dark mt-4">Confirm Cart</button>
+        <button id="confirmCartBtn"  data-cart-id="{{cart._id}}" class="btn btn-dark mt-4">Confirmar compra</button>
       </div>
     </div>
   </div>

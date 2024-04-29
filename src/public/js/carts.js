@@ -72,7 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         
         if (response.status == 200) {
-          console.log("Purchase successful");
+          const responseData = await response.json();
+          const ticketId = responseData.ticketId;
+          console.log("Proceding to cart payment");
           window.location.replace("/successPurchase");
         } else {
           console.error("Failed to process purchase");

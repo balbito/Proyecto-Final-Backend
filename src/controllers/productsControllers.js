@@ -1,4 +1,5 @@
-import { productsService } from "../services/service.js";
+import { productsService, usersService } from "../services/service.js";
+import { emailProductDelete } from "../utils/email.js";
 import { generateProducts } from "../utils/fakeProducts.js";
 import logger from "../utils/logger.js";
 
@@ -38,7 +39,6 @@ export const postProductController = async (req, res) => {
   const {title, description, code, price, stock, category, thumbnails} = req.body;
   try {
     let email = req.user.email;
-    console.log(email)
     const newProduct = { title, description, code, price, stock, category, thumbnails, owner: email }
     await productsService.create(newProduct);
     res.json(newProduct);
@@ -76,8 +76,14 @@ export const deleteProductController = async (req, res) => {
   try {
     let product = await productsService.getOne(pid);
     if (!product) return res.status(404).send("No product found");
-    await productsService.delete(pid);
-    res.json({ message: "Product deleted" });
+    if(product.owner == undefined || product.owner == "admin") {
+      await productsService.delete(pid);
+      res.json({ message: "Product deleted" });
+    } else {
+      const user = await usersService.getUserByEmail(product.owner);
+      await emailProductDelete(user.email);
+      res.json({ message: "Product deleted" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

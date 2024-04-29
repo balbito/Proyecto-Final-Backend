@@ -20,8 +20,11 @@ const schema = new mongoose.Schema({
     role: {
       type: String,
       default: "user",
-      enum: ["user", "admin", "premium"],
-    }, 
+      enum: ["user", "admin", "premium", "owner"],
+    },
+    last_connection: {
+      type: String,
+    }
 })
 
 const userModel = mongoose.model(collection, schema)

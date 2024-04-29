@@ -8,32 +8,32 @@ const viewsRouter = Router();
 
 //Basic redirection
 viewsRouter.get("/", (req, res) => {
-  res.redirect("/register");
+  res.redirect("/login");
 });
 
-//ADMIN VIEWS
+//ADMIN VISTAS
 
-//Manager
+//Admin
 viewsRouter.get(
-  "/manager",
+  "/admin",
   passportCall("jwt"),
   authorization("admin"),
   (req, res) => {
-    res.render("manager", {
+    res.render("admin", {
       title: "Admin Manager",
       user: req.user,
     });
   }
 );
 
-//Product Manager
+//Products
 viewsRouter.get(
-  "/productmanager",
+  "/realtimeproducts",
   passportCall("jwt"),
   authorization("admin"),
   async (req, res) => {
     const products = await productsService.getAll();
-    res.render("productManager", {
+    res.render("realTimeProducts", {
       title: "Products Mongoose",
       products,
       user: req.user,
@@ -41,42 +41,42 @@ viewsRouter.get(
   }
 );
 
-//Cart Manager
+//Carts
 viewsRouter.get(
-  "/cartmanager",
+  "/cartsadmin",
   passportCall("jwt"),
-  authorization("user"),
+  authorization("admin"),
   async (req, res) => {
     const carts = await cartService.getAll();
-    res.render("cartManager", {
+    res.render("cartsAdmin", {
       title: "Carts Mongoose",
       carts,
     });
   }
 );
 
-//Users Manager
+//Users
 viewsRouter.get(
-  "/usermanager",
+  "/users",
   passportCall("jwt"),
   authorization("admin"),
   async (req, res) => {
     const users = await usersService.getAll();
-    res.render("userManager", {
+    res.render("users", {
       title: "Users Mongoose",
       users,
     });
   }
 );
 
-//Tickets Manager
+//Tickets
 viewsRouter.get(
-  "/ticketmanager",
+  "/tickets",
   passportCall("jwt"),
   authorization("admin"),
   async (req, res) => {
     const tickets = await ticketsService.getAll();
-    res.render("ticketManager", {
+    res.render("tickets", {
       title: "Ticket Mongoose",
       tickets,
     });
@@ -107,11 +107,11 @@ viewsRouter.get("/github/error", (req, res) => {
   res.render("error", { error: "Unable to log in using GitHub!" });
 });
 
-//---PROFILE
+//---PERFIL
 viewsRouter.get(
   "/current",
   passportCall("jwt"),
-  authorization(["user", "admin"]),
+  authorization(["user", "admin", "premium"]),
   (req, res) => {
     let user = new userDTO(req.user);
     res.render("profile", {
@@ -124,7 +124,7 @@ viewsRouter.get(
 viewsRouter.get(
   "/chat",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "premium", "admin"]),
   (req, res) => {
     res.render("chat", {
       title: "Chat",
@@ -133,11 +133,11 @@ viewsRouter.get(
   }
 );
 
-//Products
+//Productos
 viewsRouter.get(
   "/products",
   passportCall("jwt"),
-  authorization(["admin", "user", "premium"]),
+  authorization(["admin", "user", "premium", "owner"]),
   async (req, res) => {
     const { page, limit, sort } = req.query;
     const products = await productsService.getAll(limit, page, sort);
@@ -153,7 +153,7 @@ viewsRouter.get(
 viewsRouter.get(
   "/successPurchase",
   passportCall("jwt"),
-  authorization("user"),
+  authorization(["user", "premium", "admin", "owner"]),
   (req, res) => {
     res.render("success", {
       title: "Success Purchase",
@@ -172,4 +172,19 @@ tokenResetPassword,
 async (req, res) => {
   res.render("passwordchangeform")
 })
+
+// //Card payment
+// viewsRouter.get(
+//   "/cardPayment/:ticketId",
+//   passportCall("jwt"),
+//   authorization(["user", "premium"]),
+//   (req, res) => {
+//     const ticketId = req.params.ticketId;
+//     res.render("paymentCard", {
+//       title: "Card Payment",
+//       user: req.user,
+//       ticketId: ticketId,
+//     });
+//   }
+// );
 export { viewsRouter };

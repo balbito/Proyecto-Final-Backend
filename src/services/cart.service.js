@@ -1,7 +1,6 @@
 import { cartModel } from "../models/carts.model.js";
 import { productModel } from "../models/products.model.js";
 import ticketModel from "../models/ticket.model.js";
-import userModel from "../models/users.model.js";
 import logger from "../utils/logger.js";
 
 export default class CartService {
@@ -106,47 +105,54 @@ export default class CartService {
   }
   async purchase(cid, user) {
     try {
-      console.log("entre al purchase")
-      const cart = await cartModel.findOne({_id: cid}).populate("products.productId")
-      if (cart.products.length == 0) {
-        return "carrito esta vacio"
-      }
-      // verificacion de productos disponibles
-      for (let i = 0; i < cart.products.length; i++)  {
-        if(cart.products[i].productId.stock == 0  || cart.products[i].productId.status == false) {
-          this.deleteProductFromCart(cid, cart.products[i].productId._id)
-          return "productos no disponible, se han removido del carrito"
+        const cart = await cartModel.findOne({ _id: cid }).populate("products.productId");
+        if (!cart) {
+            return "Carrito no encontrado";
         }
-      }
-      // recorremos para sumar el precio
-      let totalPrice = 0
-      for (let i = 0; i < cart.products.length; i++)  {
-        console.log(cart.products[i].productId.price)
-         totalPrice += cart.products[i].productId.price ;
-      }
-      // creando ticket
-      const ticket = {
-        purchase_dateTime: new Date(),
-        amount: totalPrice,
-        purchaser: user.email,
-        products: cart.products,
-      }
-      const newTicket = await ticketModel.create(ticket)
-      // Baja el stock
-      for (let i = 0; i < cart.products.length; i++)  {
-
-         cart.products[i].productId.stock = cart.products[i].productId.stock - cart.products[i].quantity;
-         cart.products[i].productId.save();
-         await productModel.findByIdAndUpdate(cart.products[i].productId._id, cart.products[i].productId)
-         
-      }
-      
-      
-      this.deleteAllProducts(cid)
-      return newTicket;      
+        if (cart.products.length === 0) {
+            return "Carrito está vacío";
+        }
+        
+        let totalPrice = 0;
+        
+        // Recorremos los productos del carrito y sumamos el precio total
+        for (let i = 0; i < cart.products.length; i++) {
+            const product = cart.products[i].productId;
+            const quantity = cart.products[i].quantity;
+            
+            // Verificamos si el producto está disponible
+            if (product.stock === 0 || product.status === false) {
+                await this.deleteProductFromCart(cid, product._id);
+                return "Algunos productos no están disponibles y se han eliminado del carrito";
+            }
+            
+            // Sumamos el precio total, teniendo en cuenta la cantidad de cada producto
+            totalPrice += product.price * quantity;
+        }
+        
+        // Creamos el ticket de compra
+        const ticket = {
+            purchase_dateTime: new Date(),
+            amount: totalPrice,
+            purchaser: user.email,
+            products: cart.products
+        };
+        const newTicket = await ticketModel.create(ticket);
+        
+        // Actualizamos el stock de los productos y eliminamos todos los productos del carrito
+        for (let i = 0; i < cart.products.length; i++) {
+            const product = cart.products[i].productId;
+            const quantity = cart.products[i].quantity;
+            
+            product.stock -= quantity;
+            await product.save();
+        }
+        await this.deleteAllProducts(cid);
+        
+        return newTicket;
+    } catch (error) {
+        logger.error("Error en el proceso de compra:", error);
+        return "Error en el proceso de compra";
     }
-    catch (error) {
-      console.log(error)
-    }
-  }
+}
 }

@@ -19,6 +19,7 @@ import jwtRouter from './routes/api/jwt.router.js';
 import actionRouter from './routes/api/users.actions.routes.js';
 import loggerRouter from "./routes/api/logger.router.js";
 import fakeUserRouter from "./routes/api/fakeUser.router.js"
+// import paymentRouter from "./routes/api/payments.router.js";
 
 // Assets imports:
 import { Server } from 'socket.io';
@@ -120,6 +121,7 @@ app.use("/api/email", emailRouter);
 app.use("/api/tickets", ticketRouter);
 app.use("/api/loggerTest", loggerRouter);
 app.use("/api/fakeUser", fakeUserRouter);
+// app.use("/api/payments", paymentRouter);
 
 
 
@@ -136,7 +138,7 @@ io.on("connection", (socket) => {
     let message = await messagesService.create(data);
     let allMessage = await messagesService.getAll();
 
-    socket.emit("newmessage", allMessage)
+    io.emit("newmessage", allMessage)
   });
 
   socket.on("disconnect", () => {

@@ -7,6 +7,7 @@ import {
     logout,
     register,
 } from "../../controllers/jwtControllers.js"
+import { passportCall } from "../../utils/passport.js";
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.post(
 router.post("/login", login);
 
 //Logout
-router.post("/logout", logout);
+router.post("/logout", passportCall("jwt"), logout);
 
 //Github register
 router.get(

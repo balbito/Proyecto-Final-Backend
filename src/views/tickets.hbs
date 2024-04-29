@@ -7,12 +7,12 @@
     </div>
     <div class="mr-3">
       <form action="/products" method="get">
-        <input type="submit" value="Profile" class="btn btn-dark" />
+        <input type="submit" value="Perfil" class="btn btn-dark" />
       </form>
     </div>
     <div>
-      <form action="/manager" method="get">
-        <input type="submit" value="Manager" class="btn btn-dark" />
+      <form action="/admin" method="get">
+        <input type="submit" value="Admin" class="btn btn-dark" />
       </form>
     </div>
   </div>
@@ -23,23 +23,27 @@
     <table class="table">
       <thead class="table-dark">
         <tr>
-          <th> #Cart Id </th>
-          <th> User Id </th>
-          <th> Products </th>
-          <th> Actions </th>
+          <th> Codigo </th>
+          <th> Fecha de compra</th>
+          <th> Importe </th>
+          <th> Comprador </th>
+          <th> Productos </th>
+          <th>  </th>
         </tr>
       </thead>
       <tbody>
-        {{#each carts}}
+        {{#each tickets}}
           <tr class="align-middle">
-            <td> {{_id}} </td>
-            <td> {{userId}} </td>
+            <td>{{code}}</td>
+            <td>{{purchase_dateTime}}</td>
+            <td>{{amount}}</td>
+            <td>{{purchaser}}</td>
             <td>
               <ul>
                 {{#each products}}
                   <li>Id:
                     {{this.productId._id}}
-                    || Quantity:
+                    Cantidad:
                     {{this.quantity}}</li>
                   <hr />
                 {{/each}}
@@ -48,9 +52,9 @@
             <td>
               <button
                 type="button"
-                class="btn btn-danger btn-delete-cart"
-                data-cart-id="{{_id}}"
-              >Delete</button>
+                class="btn btn-danger btn-delete-ticket"
+                data-ticket-id="{{_id}}"
+              >Borrar</button>
             </td>
           </tr>
         {{/each}}
@@ -59,4 +63,4 @@
   </div>
 </div>
 
-<script src="/js/cartManager.js"></script>
+<script src="/js/tickets.js"></script>

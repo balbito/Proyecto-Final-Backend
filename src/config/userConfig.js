@@ -6,6 +6,7 @@ import userModel from "../models/users.model.js";
 import { createHash } from "../utils/bcrypt.js";
 import config from "./config.js";
 import { createCart } from "../utils/utils.js";
+import logger from "../utils/logger.js";
 
 const privateKey = config.privateKey;
 
@@ -43,15 +44,11 @@ const initializePassport = () => {
         callbackUrl: config.callbackUrl,
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("Profile obtained from GitHub user: ");
-        console.log(profile);
         try {
           //User existance in DB validation
           const user = await userModel.findOne({ email: profile._json.email });
-          console.log("User found for login:");
-          console.log(user);
           if (!user) {
-            console.warn(
+            logger.warning(
               "User doesn't exists with email: " + profile._json.email
             );
             let newUser = {
@@ -64,6 +61,9 @@ const initializePassport = () => {
               role: "user",
             };
             const result = await userModel.create(newUser);
+            logger.info(
+              `User registered with gitHub with email ${newUser.email}`
+            );
             return done(null, result);
           } else {
             //If the user exists in DB
@@ -87,7 +87,7 @@ const initializePassport = () => {
           //User in DB validation
           const user = await userModel.findOne({ email });
           if (user) {
-            console.log("User registered with provided email");
+            logger.info("User registered with provided email: " + email);
             done(null, false);
           }
           //Admin role validation
@@ -108,6 +108,7 @@ const initializePassport = () => {
             cart: cartId,
           };
           const result = await userModel.create(newUser);
+          logger.info(`User registered locally with email: ${newUser.email}`);
           return done(null, result);
         } catch (error) {
           return done("Error registering user: " + error);
@@ -126,7 +127,7 @@ const initializePassport = () => {
       let user = await userModel.findById(id);
       done(null, user);
     } catch (error) {
-      console.error("Error deserializing user: " + error);
+      logger.error("Error deserializing user: " + error);
     }
   });
 };

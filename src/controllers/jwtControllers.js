@@ -1,4 +1,4 @@
-import UserService from "../services/users.service.js";
+
 import { isValidPassword } from "../utils/bcrypt.js";
 import { generateJWToken } from "../utils/passport.js";
 import logger from "../utils/logger.js";
@@ -9,7 +9,6 @@ export const githubRegister = async (req, res) => {
 };
 
 export const githubCallback = async (req, res) => {
-  console.log("entre a githubcallback")
   const user = req.user;
   const tokenUser = {
     name: `${user.first_name} ${user.last_name}`,
@@ -18,7 +17,6 @@ export const githubCallback = async (req, res) => {
     role: user.role,
     id: user._id,
   };
-  console.log(tokenUser)
   const access_token = generateJWToken(tokenUser);
 
   res.cookie("jwtCookieToken", access_token, {
@@ -34,7 +32,6 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  console.log("entre al controller")
   const { email, password } = req.body;
   try {
     const user = await usersService.getUserByEmail(email);
@@ -52,6 +49,7 @@ export const login = async (req, res) => {
         error: "Invalid credentials",
       });
     }
+    await usersService.lastConnection(email, "online");
     const tokenUser = {
       name: `${user.first_name} ${user.last_name}`,
       email: user.email,
@@ -61,7 +59,6 @@ export const login = async (req, res) => {
       cart: user.cart,
     };
     const access_token = generateJWToken(tokenUser);
-    console.log(access_token)
 
     res.cookie("jwtCookieToken", access_token, {
       maxAge: 600000*10,
@@ -75,6 +72,8 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
+  const email = req.user.email;
+  await usersService.lastConnection(email, "offline");
   res.clearCookie("jwtCookieToken");
   res.redirect("/login");
 };

@@ -5,24 +5,24 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-4">
-              <img
-                src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png"
-                class="w-16 h-16 object-cover rounded-circle img-thumbnail"
-                alt="Imagen de perfil"
-              />
+             <img
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          class="w-16 h-16 object-cover rounded-circle img-thumbnail"
+          alt="Imagen de perfil"
+        />
             </div>
             <div class="col-md-8">
-              <h1>{{#if user}}Welcome {{user.name}}{{else}}Welcome Guest{{/if}}</h1>
+              <h1>{{#if user}}Bienvenido {{user.name}}{{else}}Bienvenido invitado{{/if}}</h1>
               <p>Email: {{user.email}}</p>
-              <p>Age: {{user.age}}</p>
-              <p>Role: {{user.role}}</p>
+              <p>Edad: {{user.age}}</p>
+              <p>Rol: {{user.role}}</p>
             </div>
           </div>
         </div>
       </div>
       <div class="mt-4">
         <form action="/products" method="get">
-          <input type="submit" value="Back to Products" class="btn btn-dark" />
+          <input type="submit" value="Regresar a productos" class="btn btn-dark" />
         </form>
       </div>
     </div>

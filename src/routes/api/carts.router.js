@@ -50,7 +50,7 @@ CartsRouter.post(
 CartsRouter.put(
   "/:cid",
   passportCall("jwt"),
-  authorization("admin"),
+  authorization(["user", "admin", "premium"]),
   putProductsInCartController
 );
 
@@ -58,7 +58,7 @@ CartsRouter.put(
 CartsRouter.put(
   "/products/:pid",
   passportCall("jwt"),
-  authorization(["user", "admin"]),
+  authorization(["user", "premium", "admin"]),
   putProductQuantityInCartController
 );
 
@@ -66,7 +66,7 @@ CartsRouter.put(
 CartsRouter.delete(
   "/:cid",
   passportCall("jwt"),
-  authorization("admin"),
+  authorization(["admin"]),
   deleteCartController
 );
 
@@ -82,7 +82,7 @@ CartsRouter.delete(
 CartsRouter.post(
   "/ticket/purchase",
   passportCall("jwt"),
-  authorization(["user", "admin"]),
+  authorization(["user", "premium", "admin"]),
   purchaseController
 );
 

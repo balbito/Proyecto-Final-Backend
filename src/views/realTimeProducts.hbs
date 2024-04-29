@@ -7,12 +7,12 @@
     </div>
     <div class="mr-3">
       <form action="/products" method="get">
-        <input type="submit" value="Profile" class="btn btn-dark" />
+        <input type="submit" value="Perfil" class="btn btn-dark" />
       </form>
     </div>
     <div>
-      <form action="/manager" method="get">
-        <input type="submit" value="Manager" class="btn btn-dark" />
+      <form action="/admin" method="get">
+        <input type="submit" value="Admin" class="btn btn-dark" />
       </form>
     </div>
   </div>
@@ -80,7 +80,7 @@
           id="send"
         />
       </form>
-      <button class="btn btn-dark m-2" id="create-product">Create product</button>
+      <button class="btn btn-info m-2" id="create-product">Crear producto</button>
     </div>
     <div>
       <form
@@ -152,7 +152,7 @@
           id="update"
         />
       </form>
-      <button class="btn btn-dark m-2" id="update-product">Update product</button>
+      <button class="btn btn-info m-2" id="update-product">Actualizar producto</button>
     </div>
   </div>
 
@@ -162,15 +162,15 @@
     <table class="table">
       <thead class="table-dark">
         <tr>
-          <th> #Product Id </th>
-          <th> Title </th>
-          <th> Description </th>
-          <th> Code </th>
-          <th> Price </th>
+          <th> Product Id </th>
+          <th> Titulo </th>
+          <th> Descripcion</th>
+          <th> Codigo </th>
+          <th> Precio </th>
           <th> Stock </th>
-          <th> Category </th>
+          <th> Categoria </th>
           <th> Thumbnails </th>
-          <th> Actions </th>
+          <th>  </th>
         </tr>
       </thead>
       <tbody>
@@ -193,7 +193,7 @@
                 type="button"
                 class="btn btn-danger btn-delete-product"
                 data-product-id="{{_id}}"
-              >Delete</button>
+              >Borrar</button>
             </td>
           </tr>
         {{/each}}
@@ -202,4 +202,4 @@
   </div>
 </div>
 
-<script src="/js/productManager.js"></script>
+<script src="/js/realTimeProducts.js"></script>

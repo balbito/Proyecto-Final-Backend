@@ -3,18 +3,18 @@
     <div class="col-md-4">
       <div class="card border-none">
         <img
-          src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png"
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
           class="w-16 h-16 object-cover rounded-circle img-thumbnail"
           alt="Imagen de perfil"
         />
         <form action="/current" method="get">
-          <input type="submit" value="View Profile" class="btn btn-dark mt-2" />
+          <input type="submit" value="Ver Perfil" class="btn btn-info" />
         </form>
       </div>
     </div>
     <div class="col-md-8 mt-4 mb-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h1>Welcome ADMIN</h1>
+        <h1>Bienvenido ADMIN</h1>
         <form action="/api/jwt/logout" method="post">
           <input type="submit" value="Logout" class="btn btn-danger" />
         </form>
@@ -25,32 +25,32 @@
     <div
       class="d-flex flex-column flex-md-row justify-content-md-around align-items-center"
     >
-      <form action="/productmanager" method="get">
+      <form action="/realtimeproducts" method="get">
         <input
           type="submit"
-          value="Products Manager"
-          class="btn btn-dark m-4 mb-md-0"
+          value="Productos"
+          class="btn btn-warning m-4 mb-md-0"
         />
       </form>
-      <form action="/cartmanager" method="get">
+      <form action="/cartsadmin" method="get">
         <input
           type="submit"
-          value="Carts Manager"
-          class="btn btn-dark m-4 mb-md-0"
+          value="Carritos"
+          class="btn btn-warning  m-4 mb-md-0"
         />
       </form>
-      <form action="/usermanager" method="get">
+      <form action="/users" method="get">
         <input
           type="submit"
-          value="Users Manager"
-          class="btn btn-dark m-4 mb-md-0"
+          value="Usuarios"
+          class="btn btn-warning  m-4 mb-md-0"
         />
       </form>
-      <form action="/ticketmanager" method="get">
+      <form action="/tickets" method="get">
         <input
           type="submit"
-          value="Tickets Manager"
-          class="btn btn-dark m-4 mb-md-0"
+          value="Tickets"
+          class="btn btn-warning m-4 mb-md-0"
         />
       </form>
     </div>

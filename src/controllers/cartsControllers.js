@@ -5,7 +5,6 @@ import { productsService } from "../services/service.js";
   
 
 export const getCartsController = async (req, res) => {
-  console.log("entre")
   try {
     let carts = await cartService.getAll();
     res.json(carts);
@@ -97,7 +96,6 @@ export const deleteCartController = async (req, res) => {
 export const purchaseController = async (req, res) => {
   try {
     let user = req.user;
-    console.log(user)
     let cid = user.cart;
     let ticket = await cartService.purchase(cid, user);
     req.logger.info(ticket)
@@ -108,3 +106,5 @@ export const purchaseController = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+

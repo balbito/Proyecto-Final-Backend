@@ -42,17 +42,18 @@ export const deleteUserController = async (req, res) => {
   }
 };
 
-export const changeToPremiumController = async (req, res) => {
+export const changeRole = async (req, res) => {
   try {
-    const userId = req.params.uid
-    const payload = await usersService.changeRole(userId)
-    console.log(payload, "Soy payload")
+    const { role } = req.body;
+    const userId = req.params.uid;
+    const payload = await usersService.changeRole(userId, role)
     if(payload) {
-      res.send("Se han actualiado los roles, porfavor vuelva a loguearse")
-      return 
+      res.json({ message: "Roles updated, please log in again" });
+      return;
     }
   } catch (error) {
-    res.status(400).send("Se ha producido un error, vuelva  intentarlo")
+    logger.error("Error changing user role:", error)
+    res.status(400).json({ error: "An error occurred, please try again" });
   }
 };
 
@@ -64,7 +65,7 @@ export const resetPasswordController = async (req, res) => {
       res.status(404).send("User not found with email"+ email)
     }
     const token = generateResetPassword(user);
-    console.log(token)
+    
     await sendResetPasswordEmail(email, token)
     res.status(200).send("Se envio el email")
   } catch (error) {
@@ -73,14 +74,14 @@ export const resetPasswordController = async (req, res) => {
 }
 
 export const changePassword = async (req, res) => {
-  console.log("entre a changePassword")
+  
   try {
     const { password, confirmPassword, token } = req.body;
-    console.log(req.body)
+    
     const user = JWTVerified(token, config.privateKey)
-    console.log(user)
+    
     const userRef = await usersService.getUserByEmail(user.user.email)
-    console.log(userRef)
+    
     if(password !== confirmPassword){
       return res.status(202).send("Las contraseñas no coinciden")
     }
@@ -88,13 +89,21 @@ export const changePassword = async (req, res) => {
       return res.status(202).send("No puedes usar la misma contraseña")
     }
     const passwordHashed = createHash(password)
-    console.log(userRef.password)
-    console.log(userRef)
     userRef.password = passwordHashed
     userRef.save()
     res.status(200).send("Se cambio la contraseña del usuario, vuelva a loguearse")
 
   } catch (error) {
     logger.error("No se pudo cambiar contraseña" + error)
+  }
+}
+
+export const deleteInactiveUsers = async (req, res) => {
+
+  try {
+    const deletedUsers = await usersService.deleteInactiveUsers();
+    res.send("Se han eliminado:" + deletedUsers);
+  } catch (error) {
+    logger.error("Error de controller en deletelastconnection" + error)
   }
 }

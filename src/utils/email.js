@@ -32,3 +32,21 @@ export async function sendResetPasswordEmail(email, token) {
 
   await transporter.sendMail(mailOptions)
 }
+
+export async function emailProductDelete(email) {
+  const mailOptions = {
+    from: config.gmailAccount,
+    to: email,
+    subject: "Producto Removido",
+    html: `
+    <div>
+    <h1>Aviso de producto removido</h1>
+    <h3>Hola ${user.first_name}! </h3>
+    <p> Si no fuiste vos comunicarse con soporte </p>
+  </div>
+  `
+  }
+
+  await transporter.sendMail(mailOptions)
+}
+

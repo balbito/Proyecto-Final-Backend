@@ -7,12 +7,12 @@
     </div>
     <div class="mr-3">
       <form action="/products" method="get">
-        <input type="submit" value="Profile" class="btn btn-dark" />
+        <input type="submit" value="Perfil" class="btn btn-dark" />
       </form>
     </div>
     <div>
-      <form action="/manager" method="get">
-        <input type="submit" value="Manager" class="btn btn-dark" />
+      <form action="/admin" method="get">
+        <input type="submit" value="Admin" class="btn btn-dark" />
       </form>
     </div>
   </div>
@@ -23,12 +23,13 @@
     <table class="table">
       <thead class="table-dark">
         <tr>
-          <th> First Name </th>
-          <th> Last Name </th>
+          <th> Nombre </th>
+          <th> Apellido </th>
           <th> Email </th>
-          <th> Age </th>
-          <th> Role </th>
-          <th> Actions </th>
+          <th> Edad </th>
+          <th> Ultima conexión</th>
+          <th> Rol </th>
+          <th>  </th>
         </tr>
       </thead>
       <tbody>
@@ -38,13 +39,22 @@
             <td>{{last_name}}</td>
             <td>{{email}}</td>
             <td>{{age}}</td>
-            <td>{{role}}</td>
-            <td>
+            <td>{{last_connection}}</td>
+            <td class="user-role">{{role}}</td>
+            <td >
+               <button id="expiredUsers" class="btn btn-danger me-2">Eliminar usuarios
+        expirados
+      </button>
               <button
                 type="button"
                 class="btn btn-danger btn-delete-user"
                 data-user-id="{{_id}}"
-              >Delete</button>
+              >Borrar</button>
+               <button
+                type="button"
+                class="btn btn-secondary btn-change-user"
+                data-user-id="{{_id}}"
+              >Cambiar rol</button>
             </td>
           </tr>
         {{/each}}
@@ -53,4 +63,5 @@
   </div>
 </div>
 
-<script src="/js/userManager.js"></script>
+<script src="/js/users.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
