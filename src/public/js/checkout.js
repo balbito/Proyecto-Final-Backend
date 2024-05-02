@@ -56,7 +56,7 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "clase27-production.up.railway.app/api/carts/ticket/purchase",
+      return_url: "http://clase27-production.up.railway.app/api/carts/ticket/purchase",
     },
   });
 
