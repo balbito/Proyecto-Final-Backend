@@ -25,7 +25,7 @@ CartsRouter.get(
 
 //Get carts
 CartsRouter.get(
-  "/:cid",
+  "/getCartById",
   passportCall("jwt"),
   authorization(["user", "premium", "admin"]),
   getCartController

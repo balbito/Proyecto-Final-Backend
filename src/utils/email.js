@@ -25,7 +25,7 @@ export async function sendResetPasswordEmail(email, token) {
     <h1>Recupera tu contraseña</h1>
     <p> Si no fuiste vos comunicarse con soporte </p>
     <p>Para recuperar la contraseña hace click en el link debajo</p>
-    <a href="http://localhost:8080/changePassword?token=${token}">Recuperar contraseña</a>
+    <a href="clase27-production.up.railway.app/changePassword?token=${token}">Recuperar contraseña</a>
   </div>
   `
   }

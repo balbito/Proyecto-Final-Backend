@@ -175,15 +175,10 @@ async (req, res) => {
 
 // checkout
 viewsRouter.get("/checkout",
-passportCall("jwt"),
+
 async (req, res) => {
-  console.log(req.user)
-  const { cart } = req.user;
-  let cid  = await cartService.getOne(cart)
-  console.log(cid)
-  res.render("checkout", {
-    cart: cid
-  } )
+ 
+  res.render("checkout" )
 
 })
 export { viewsRouter };

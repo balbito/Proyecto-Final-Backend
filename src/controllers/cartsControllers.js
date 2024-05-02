@@ -15,9 +15,9 @@ export const getCartsController = async (req, res) => {
 
 export const getCartController = async (req, res) => {
   try {
-    let cid = req.user;
-    let cart = await cartService.getOne(cid);
-    res.json(cart);
+    let { cart } = req.user;
+    let carrito = await cartService.getOne(cart);
+    res.json(carrito);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

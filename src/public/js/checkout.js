@@ -1,3 +1,14 @@
+async function getCartId () {
+  const response = await fetch("api/carts/getCartById", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  })
+  let cart = await response.json()
+  console.log(cart)
+ return cart._id
+}
+
+
 // This is your test publishable API key.
 const stripe = Stripe("pk_test_51P9k5jERk7ZxxX77ei6LsHpQ8ZofSV5NmKfrVd7Hv5WLAgHJ41Q4yGt0QpGEtkJH6LzwNmLRCRU2ruf33UOP2rw300td03ecBf");
 
@@ -5,8 +16,8 @@ const stripe = Stripe("pk_test_51P9k5jERk7ZxxX77ei6LsHpQ8ZofSV5NmKfrVd7Hv5WLAgHJ
 const items = [{ id: "xl-tshirt" }];
 
 let elements;
-let h1CartId = document.getElementById("carth1")
-let cid = h1CartId.dataset.info
+// let h1CartId = document.getElementById("carth1")
+// let cid = h1CartId.dataset.info
 initialize();
 checkStatus();
 
@@ -16,6 +27,7 @@ document
 
 // Fetches a payment intent and captures the client secret
 async function initialize() {
+  const cid = await getCartId()
   const response = await fetch(`/create-payment-intent/${cid}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -44,7 +56,7 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://localhost:8080/api/carts/ticket/purchase",
+      return_url: "clase27-production.up.railway.app/api/carts/ticket/purchase",
     },
   });
 
