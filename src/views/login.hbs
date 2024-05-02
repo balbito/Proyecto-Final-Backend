@@ -1,9 +1,9 @@
-<div class="max-w-md mx-auto mt-8 bg-white p-8 rounded shadow-md">
-  <h1 class="text-2xl font-bold mb-4">Login</h1>
+<div class="max-w-md mx-auto mt-8 bg-gray-200 p-8 rounded shadow-md">
+  <h1 class="text-green-500 text-3xl font-bold mb-4">Iniciar Sesion</h1>
   <form id="loginForm">
-    <label class="block mb-2">Email</label>
+    <label class="block mb-2 font-bold text-lg">Email</label>
     <input type="email" name="email" class="w-full border p-2 mb-4" required />
-    <label class="block mb-2">Contraseña</label>
+    <label class="block mb-2 font-bold text-lg">Contraseña</label>
     <input
       type="password"
       name="password"
@@ -13,14 +13,15 @@
     <input
       type="submit"
       value="Login"
-      class="bg-blue-500 text-white px-4 py-2 cursor-pointer"
+      class="bg-green-500 text-white px-4 py-2 cursor-pointer"
     />
   </form>
-   <p class="mt-2"><i>¿Olvidaste tu contraseña?   </i><a href="/recoverPassword" class="text-blue-500">  Reestablecer contraseña</a></p>
-  <p class="mt-4">¿No tienes una cuenta?
-    <a href="/register" class="text-blue-500">Registrate aqui</a></p>
+   <p class="mt-2 font-bold"><i>¿Olvidaste tu contraseña?   </i><a href="/recoverPassword" class="text-green-500">  Reestablecer contraseña</a></p>
+  <p class="mt-4 font-bold">¿No tienes una cuenta?
+    <a href="/register" class="text-green-500">Registrate aqui</a></p>
 
-    <p class="mt-4">¿Quieres iniciar sesión con Github?
-    <a href="/github/login" class="text-blue-500">Login aqui</a></p>
+    <p class="mt-4 font-bold">¿Quieres iniciar sesión con Github?
+    <a href="/github/login" class="text-green-500">Login aqui</a></p>
 </div>
 <script src="/js/login.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>

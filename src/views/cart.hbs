@@ -1,25 +1,23 @@
-<div class="container-fluid my-10">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8">
-      <div class="row">
-        <div class="col-md-2">
-          <div class="card border-none">
-            <img
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          class="w-16 h-16 object-cover rounded-circle img-thumbnail"
-          alt="Imagen de perfil"
-        />
+
+<div class="container-fluid my-10 bg-gray-200">
+  <div class="row justify-content-center bg-gray-200">
+    <div class="col-12 col-md-8 bg-gray-200">
+      <div class="row bg-gray-200">
+        <div class="col-md-2 bg-gray-200">
+          <div class="card border-none bg-gray-200">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              class="w-16 h-16 object-cover rounded-circle img-thumbnail" alt="Imagen de perfil" />
           </div>
         </div>
-        <div class="col-md-10 mt-4 mb-4">
+        <div class="col-md-10 mt-4 mb-4 bg-gray-200">
           <div class="d-flex justify-content-between align-items-center">
             <div>
               {{#if user}}
-                <h1 class="m-2">Bienvenido {{user.name}}</h1>
-                <p class="m-2" id="userEmail">{{user.email}}</p>
-                <h2 class="m-2">Permisos: {{user.role}}</h2>
+              <h1 class="m-2">Bienvenido {{user.name}}</h1>
+              <p class="m-2" id="userEmail">{{user.email}}</p>
+              <h2 class="m-2">Permisos: {{user.role}}</h2>
               {{else}}
-                <h1>Bienvenido Invitado</h1>
+              <h1>Bienvenido Invitado</h1>
               {{/if}}
             </div>
             <div>
@@ -33,95 +31,70 @@
           </div>
         </div>
       </div>
-      <div class="card">
+
+      <div class="card bg-green-200">
         <div class="card-header text-center">
-          <h3><i class="fas fa-shopping-cart"></i> Cart ID: {{cart._id}}</h3>
+          <h3 class="font-bold"><i class="fas fa-shopping-cart"></i> Cart ID: {{cart._id}}</h3>
         </div>
         <div class="card-body">
           <div class="accordion" id="productAccordion">
             {{#each cart.products}}
-              <div class="card">
-                <div class="card-body">
-                  <div
-                    class="d-flex flex-column flex-md-row justify-content-md-between align-items-center"
-                  >
-                    <img
-                      src="{{this.productId.thumbnails}}"
-                      alt="Product Image"
-                      width="50"
-                      height="50"
-                    />
-                    <h5 class="card-title mt-3">{{this.productId.title}}</h5>
-                    <div
-                      class="d-flex flex-column align-items-center align-items-md-start"
-                    >
-                      <div class="input-group" style="max-width: 150px;">
-                        <input
-                          type="number"
-                          class="form-control text-center product-quantity rounded mb-2 mb-md-0"
-                          value="{{this.quantity}}"
-                          aria-label="Quantity"
-                          data-product-id="{{this.productId._id}}"
-                        />
-                        <button
-                          data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
-                          class="btn btn-success btn-confirm-quantity rounded" 
-                        >Confirmar cantidad</button>
-                      </div>
-                      <button
-                        data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
-                        class="btn btn-danger btn-delete-product mt-2"
-                      >Borrar producto</button>
+            <div class="card bg-green-100">
+              <div class="card-body">
+                <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-center">
+                  <img src="{{this.productId.thumbnails}}" alt="Product Image" width="50" height="50" />
+                  <h5 class="card-title mt-3">{{this.productId.title}}</h5>
+                  <div class="d-flex flex-column align-items-center align-items-md-start">
+                    <div class="input-group" style="max-width: 150px;">
+                      <input type="number" class="form-control text-center product-quantity rounded mb-2 mb-md-0"
+                        value="{{this.quantity}}" aria-label="Quantity" data-product-id="{{this.productId._id}}" />
+                      <button data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
+                        class="btn btn-success btn-confirm-quantity rounded">Confirmar cantidad</button>
                     </div>
-                  </div>
-                  <div class="collapse" id="productCollapse{{@index}}">
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item"><strong>Descripcion:</strong>
-                        {{this.productId.description}}</li>
-                      <li class="list-group-item"><strong>Codigo:</strong>
-                        {{this.productId.code}}</li>
-                      <li class="list-group-item"><strong>Precio:</strong>
-                        ${{this.productId.price}}</li>
-                      <li class="list-group-item"><strong>Stock:</strong>
-                        {{this.productId.stock}}</li>
-                      <li class="list-group-item"><strong>Categoria:</strong>
-                        {{this.productId.category}}</li>
-                      <li class="list-group-item">
-                        <strong>Thumbnails:</strong>
-                        {{#each this.productId.thumbnails}}
-                          <img
-                            src="{{this}}"
-                            alt="Thumbnail"
-                            width="40"
-                            height="40"
-                            class="d-inline-block thumbnail-spacing"
-                          />
-                        {{/each}}
-                      </li>
-                    </ul>
+                    <button data-cart-id="{{../cart._id}}" data-product-id="{{this.productId._id}}"
+                      class="btn btn-danger btn-delete-product mt-2">Borrar producto</button>
                   </div>
                 </div>
-                <div class="card-footer">
-                  <a
-                    class="btn btn-link"
-                    data-toggle="collapse"
-                    href="#productCollapse{{@index}}"
-                    role="button"
-                    aria-expanded="false"
-                    aria-controls="productCollapse{{@index}}"
-                  >
-                    Detalles
-                  </a>
+                <div class="collapse" id="productCollapse{{@index}}">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Descripcion:</strong>
+                      {{this.productId.description}}</li>
+                    <li class="list-group-item"><strong>Codigo:</strong>
+                      {{this.productId.code}}</li>
+                    <li class="list-group-item"><strong>Precio:</strong>
+                      ${{this.productId.price}}</li>
+                    <li class="list-group-item"><strong>Stock:</strong>
+                      {{this.productId.stock}}</li>
+                    <li class="list-group-item"><strong>Categoria:</strong>
+                      {{this.productId.category}}</li>
+                    <li class="list-group-item">
+                      <strong>Thumbnails:</strong>
+                      {{#each this.productId.thumbnails}}
+                      <img src="{{this}}" alt="Thumbnail" width="40" height="40"
+                        class="d-inline-block thumbnail-spacing" />
+                      {{/each}}
+                    </li>
+                  </ul>
                 </div>
               </div>
+              <div class="card-footer">
+                <a class="btn btn-link" data-toggle="collapse" href="#productCollapse{{@index}}" role="button"
+                  aria-expanded="false" aria-controls="productCollapse{{@index}}">
+                  Detalles
+                </a>
+              </div>
+            </div>
             {{/each}}
           </div>
         </div>
       </div>
+
+
       <div class="card-footer text-center">
-        <button id="confirmCartBtn"  data-cart-id="{{cart._id}}" class="btn btn-dark mt-4">Confirmar compra</button>
+        <button id="confirmCartBtn" data-cart-id="{{cart._id}}" class="btn btn-dark mt-4">Confirmar compra</button>
       </div>
     </div>
+    
   </div>
 </div>
 <script src="/js/carts.js"></script>

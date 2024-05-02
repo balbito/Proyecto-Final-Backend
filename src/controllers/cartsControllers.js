@@ -15,7 +15,7 @@ export const getCartsController = async (req, res) => {
 
 export const getCartController = async (req, res) => {
   try {
-    let cid = req.params.cid;
+    let cid = req.user;
     let cart = await cartService.getOne(cid);
     res.json(cart);
   } catch (error) {
@@ -96,15 +96,28 @@ export const deleteCartController = async (req, res) => {
 export const purchaseController = async (req, res) => {
   try {
     let user = req.user;
+    console.log(user)
     let cid = user.cart;
     let ticket = await cartService.purchase(cid, user);
     req.logger.info(ticket)
-
     
-    res.status(200).send({message: "Compra realizada exitosamente", ticket: ticket});
+    
+    res.redirect("/successPurchase")
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-
+export const validateProductsController = async (req, res) => {
+  console.log("entre al controller validate")
+  try {
+    let cid = req.user.cart;
+    let validateProducts = await cartService.validateProducts(cid);
+    if(validateProducts == -1) {
+      res.status(400).send("Error en el carrito")
+    }
+    res.status(200).json( validateProducts)
+  } catch (error) {
+    res.status(400).send("Error en el carrito")
+  }
+}

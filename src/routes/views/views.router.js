@@ -173,18 +173,17 @@ async (req, res) => {
   res.render("passwordchangeform")
 })
 
-// //Card payment
-// viewsRouter.get(
-//   "/cardPayment/:ticketId",
-//   passportCall("jwt"),
-//   authorization(["user", "premium"]),
-//   (req, res) => {
-//     const ticketId = req.params.ticketId;
-//     res.render("paymentCard", {
-//       title: "Card Payment",
-//       user: req.user,
-//       ticketId: ticketId,
-//     });
-//   }
-// );
+// checkout
+viewsRouter.get("/checkout",
+passportCall("jwt"),
+async (req, res) => {
+  console.log(req.user)
+  const { cart } = req.user;
+  let cid  = await cartService.getOne(cart)
+  console.log(cid)
+  res.render("checkout", {
+    cart: cid
+  } )
+
+})
 export { viewsRouter };

@@ -29,4 +29,7 @@ export default class CartsRepository {
     purchase = (cid, user) => {
       return this.dao.purchase(cid, user);
     };
+    validateProducts = (cid, user) => {
+      return this.dao.validateProducts(cid, user)
+    }
   }

@@ -9,6 +9,7 @@ import {
   deleteCartController,
   deleteProductFromCartController,
   purchaseController,
+  validateProductsController,
 } from "../../controllers/cartsControllers.js";
 import { authorization } from "../../utils/auth.js";
 import { passportCall } from "../../utils/passport.js";
@@ -26,7 +27,7 @@ CartsRouter.get(
 CartsRouter.get(
   "/:cid",
   passportCall("jwt"),
-  authorization(["user", "admin"]),
+  authorization(["user", "premium", "admin"]),
   getCartController
 );
 
@@ -74,16 +75,21 @@ CartsRouter.delete(
 CartsRouter.delete(
   "/:cid/products/:pid",
   passportCall("jwt"),
-  authorization(["user", "admin"]),
+  authorization(["user", "premium", "admin"]),
   deleteProductFromCartController
 );
 
 //confirm purchase
-CartsRouter.post(
+CartsRouter.get(
   "/ticket/purchase",
   passportCall("jwt"),
   authorization(["user", "premium", "admin"]),
   purchaseController
 );
 
+CartsRouter.get("/validateProducts/checkout",
+passportCall("jwt"),
+authorization(["user", "premium", "admin"]),
+validateProductsController
+)
 export { CartsRouter };

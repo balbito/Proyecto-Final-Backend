@@ -1,6 +1,7 @@
 import { cartModel } from "../models/carts.model.js";
 import { productModel } from "../models/products.model.js";
 import ticketModel from "../models/ticket.model.js";
+import { emailPurchase } from "../utils/email.js";
 import logger from "../utils/logger.js";
 
 export default class CartService {
@@ -105,6 +106,7 @@ export default class CartService {
   }
   async purchase(cid, user) {
     try {
+      console.log("params", cid , user)
         const cart = await cartModel.findOne({ _id: cid }).populate("products.productId");
         if (!cart) {
             return "Carrito no encontrado";
@@ -112,7 +114,7 @@ export default class CartService {
         if (cart.products.length === 0) {
             return "Carrito está vacío";
         }
-        
+        console.log("cart", cart)
         let totalPrice = 0;
         
         // Recorremos los productos del carrito y sumamos el precio total
@@ -137,8 +139,9 @@ export default class CartService {
             purchaser: user.email,
             products: cart.products
         };
+        console.log("ticket", ticket)
         const newTicket = await ticketModel.create(ticket);
-        
+        await emailPurchase( user.email, ticket)
         // Actualizamos el stock de los productos y eliminamos todos los productos del carrito
         for (let i = 0; i < cart.products.length; i++) {
             const product = cart.products[i].productId;
@@ -155,4 +158,38 @@ export default class CartService {
         return "Error en el proceso de compra";
     }
 }
+
+async validateProducts (cid, user) {
+  try {
+    
+    const cart = await cartModel.findOne({ _id: cid }).populate("products.productId");
+          if (!cart) {
+              return -1;
+          }
+          if (cart.products.length === 0) {
+              return -1;
+          }
+          
+          let totalPrice = 0;
+          
+          // Recorremos los productos del carrito y sumamos el precio total
+          for (let i = 0; i < cart.products.length; i++) {
+              const product = cart.products[i].productId;
+              const quantity = cart.products[i].quantity;
+              
+              // Verificamos si el producto está disponible
+              if (product.stock === 0 || product.status === false) {
+                  await this.deleteProductFromCart(cid, product._id);
+                  return -1;
+              }
+              
+              // Sumamos el precio total, teniendo en cuenta la cantidad de cada producto
+              totalPrice += product.price * quantity;
+          }
+          return totalPrice;
+  } catch (error) {
+    console.log(error)
+  }
 }
+}
+

@@ -1,3 +1,4 @@
+let totalPrice = 0;
 document.addEventListener("DOMContentLoaded", function () {
     const deleteButtons = document.querySelectorAll(".btn-delete-product");
     const confirmQuantityButtons = document.querySelectorAll(
@@ -5,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     const confirmCartBtn = document.getElementById("confirmCartBtn");
-
     
     deleteButtons.forEach((button) => {
       button.addEventListener("click", async function (event) {
@@ -67,15 +67,17 @@ document.addEventListener("DOMContentLoaded", function () {
     confirmCartBtn.addEventListener("click", async function (event) {
       const cartId = confirmCartBtn.dataset.cartId;
       try {
-        const response = await fetch(`/api/carts/ticket/purchase`, {
-          method: "POST",
+        const response = await fetch(`/api/carts/validateProducts/checkout`, {
+          method: "GET",
         });
         
         if (response.status == 200) {
+          console.log(response)
+          
           const responseData = await response.json();
-          const ticketId = responseData.ticketId;
+          // const ticketId = responseData.ticketId;
           console.log("Proceding to cart payment");
-          window.location.replace("/successPurchase");
+          window.location.replace("/checkout");
         } else {
           console.error("Failed to process purchase");
         }
@@ -84,3 +86,4 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+

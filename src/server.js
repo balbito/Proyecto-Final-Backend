@@ -19,7 +19,7 @@ import jwtRouter from './routes/api/jwt.router.js';
 import actionRouter from './routes/api/users.actions.routes.js';
 import loggerRouter from "./routes/api/logger.router.js";
 import fakeUserRouter from "./routes/api/fakeUser.router.js"
-// import paymentRouter from "./routes/api/payments.router.js";
+
 
 // Assets imports:
 import { Server } from 'socket.io';
@@ -36,6 +36,8 @@ import cors from 'cors';
 import compression from 'express-compression';
 import { addLogger } from './utils/logger.js';
 import logger from './utils/logger.js';
+import { passportCall } from './utils/passport.js';
+import { checkoutController } from './controllers/checkoutControllers.js';
 
 // SERVER
 const app = express();
@@ -121,7 +123,10 @@ app.use("/api/email", emailRouter);
 app.use("/api/tickets", ticketRouter);
 app.use("/api/loggerTest", loggerRouter);
 app.use("/api/fakeUser", fakeUserRouter);
-// app.use("/api/payments", paymentRouter);
+
+
+
+app.post("/create-payment-intent/:cid", passportCall("jwt"), checkoutController)
 
 
 

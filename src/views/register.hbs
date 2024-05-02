@@ -1,25 +1,25 @@
-<div class="max-w-md mx-auto bg-white p-8 mt-8 rounded shadow-md">
-  <h1 class="text-2xl font-bold mb-4">Registro</h1>
+<div class="max-w-md mx-auto bg-gray-200 p-8 mt-8 rounded shadow-md">
+  <h1 class="text-3xl font-bold mb-4">Registro</h1>
   <form id="registerForm">
-    <label class="block mb-2">Nombre</label>
+    <label class="block mb-2 font-bold text-lg">Nombre</label>
     <input
       type="text"
       name="first_name"
       class="w-full border p-2 mb-4"
       required
     />
-    <label class="block mb-2">Apellido</label>
+    <label class="block mb-2 font-bold text-lg">Apellido</label>
     <input
       type="text"
       name="last_name"
       class="w-full border p-2 mb-4"
       required
     />
-    <label class="block mb-2">Email</label>
+    <label class="block mb-2 font-bold text-lg">Email</label>
     <input type="email" name="email" class="w-full border p-2 mb-4" required />
-    <label class="block mb-2">Edad</label>
+    <label class="block mb-2 font-bold text-lg">Edad</label>
     <input type="text" name="age" class="w-full border p-2 mb-4" required />
-    <label class="block mb-2">Contraseña</label>
+    <label class="block mb-2 font-bold text-lg">Contraseña</label>
     <input
       type="password"
       name="password"
@@ -32,9 +32,9 @@
       class="bg-green-500 text-white px-4 py-2 cursor-pointer"
     />
   </form>
-  <p class="mt-4">¿Ya tienes una cuenta?
-    <a href="/login" class="text-blue-500">Login aqui</a></p>
-   <p class="mt-4">¿Quieres iniciar sesión con Github?
-    <a href="/github/login" class="text-blue-500">Login aqui</a></p>
+  <p class="mt-4 font-bold">¿Ya tienes una cuenta?
+    <a href="/login" class="text-green-500">Login aqui</a></p>
+   <p class="mt-4 font-bold">¿Quieres iniciar sesión con Github?
+    <a href="/github/login" class="text-green-500">Login aqui</a></p>
 </div>
 <script src="/js/register.js"></script>

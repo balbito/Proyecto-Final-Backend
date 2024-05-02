@@ -50,3 +50,23 @@ export async function emailProductDelete(email) {
   await transporter.sendMail(mailOptions)
 }
 
+export async function emailPurchase(email, ticket) {
+  const mailOptions = {
+    from: config.gmailAccount,
+    to: email,
+    subject: "Compra exitosa",
+    html: `
+    <div>
+    <h1>Detalles de compra</h1>
+    <h3>Hola ${email}! </h3>
+    <h3>${ticket.purchase_dateTime}</h3>
+    <h3>${ticket.amount}</h3>
+    <h3>${ticket.purchaser}</h3>
+    <h3>${ticket.products}</h3>
+    <p> Gracias por su compra! Esperamos verte pronto </p>
+  </div>
+  `
+  }
+
+  await transporter.sendMail(mailOptions)
+}

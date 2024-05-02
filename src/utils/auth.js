@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken";
 
 // Authorization
 export const authorization = (role) => {
-    return async (req, res, next) => {
+  return async (req, res, next) => {
+      console.log(role, req.user)
       if (!req.user)
         return res.status(401).send("Unauthorized: User not found in JWT");
       if (!role.includes(req.user.role)) {

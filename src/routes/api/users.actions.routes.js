@@ -10,7 +10,7 @@ const router = Router();
 router.post(
   "/:productId",
   passportCall("jwt"),
-  authorization(["user", "premium"]),
+  authorization(["user", "premium", "admin"]),
   async (req, res) => {
     try {
       const productId = req.params.productId;
