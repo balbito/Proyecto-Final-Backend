@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
   
           const responseData = await response.json();
-          console.log(responseData);
+          
   
           button.closest("tr").remove();
         } catch (error) {

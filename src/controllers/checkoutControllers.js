@@ -4,13 +4,10 @@ const stripeInstance = stripe(config.stripeSecretKey)
 import { cartService } from "../services/service.js";
 
 export const checkoutController = async (req, res) => {
-    console.log("entre al controller checkout")
     const { cid } = req.params;
       let result = 0;
       const calculateOrderAmount = async (cid) => {
-        console.log(cid)
         const cart = await cartService.getOne(cid)
-        console.log(cart)
         if (!cart) {
           return -1;
         }
@@ -32,7 +29,7 @@ export const checkoutController = async (req, res) => {
         result = totalPrice;
         return result;
       };
-       console.log(result)
+       
       try {
         let amount = await calculateOrderAmount(cid);
         const { items } = req.body;

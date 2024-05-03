@@ -4,7 +4,7 @@ async function getCartId () {
     headers: { "Content-Type": "application/json" },
   })
   let cart = await response.json()
-  console.log(cart)
+  
  return cart._id
 }
 

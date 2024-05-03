@@ -114,7 +114,7 @@ export default class CartService {
         if (cart.products.length === 0) {
             return "Carrito está vacío";
         }
-        console.log("cart", cart)
+        
         let totalPrice = 0;
         
         // Recorremos los productos del carrito y sumamos el precio total

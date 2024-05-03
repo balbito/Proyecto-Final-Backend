@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         
         if (response.status == 200) {
-          console.log(response)
+          
           
           const responseData = await response.json();
           // const ticketId = responseData.ticketId;
