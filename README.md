@@ -6,7 +6,7 @@ La idea del proyecto final es crear un ecommerce desde cero utilizando node.js, 
 
 ## Descrpcion del Proyecto
 
-El proyecto consiste en la creación de un ecommerce completo, que permite a los usuarios navegar por diferentes categorías de productos, agregar productos al carrito de compras, realizar pedidos y realizar pagos. El frontend está implementado utilizando el motor de plantillas Handlebars, mientras que el backend está construido con Node.js utilizando Express.js.
+El proyecto consiste en la creación de un ecommerce completo, que permite a los usuarios navegar por diferentes categorías de productos, agregar productos al carrito de compras, realizar pedidos y realizar pagos. El frontend está implementado utilizando el motor de plantillas Handlebars, mientras que el backend está construido con Node.js utilizando Express.js y como base de datos utilizamos MongoDB.
 
 ## Características Principales
 
@@ -66,7 +66,7 @@ The idea of the final project is to create an ecommerce from scratch using node.
 
 ## Project Description
 
-The project consists in the creation of a complete ecommerce, which allows users to browse different product categories, add products to the shopping cart, place orders and make payments. The frontend is implemented using Handlebars template engine, while the backend is built with Node.js using Express.js.
+The project consists in the creation of a complete ecommerce, which allows users to browse different product categories, add products to the shopping cart, place orders and make payments. The frontend is implemented using Handlebars template engine, while the backend is built with Node.js using Express.js and as a database we use MongoDB.
 
 ## Key Features.
 
