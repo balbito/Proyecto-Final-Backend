@@ -2,7 +2,7 @@
 
 # Proyecto Final del Curso de Programación Backend - CoderHouse
 
-La idea del proyecto final es crear un ecommerce desde cero utilizando node.js, express y handlebars.
+La idea del proyecto final es crear un ecommerce desde cero utilizando node.js, express, handlebars y MongoDB.
 
 ## Descrpcion del Proyecto
 
@@ -62,7 +62,7 @@ Se han realizado pruebas de rendimiento y tests unitarios y de integración medi
 
 # Final Project of the Backend Programming Course - CoderHouse
 
-The idea of the final project is to create an ecommerce from scratch using node.js, express and handlebars.
+The idea of the final project is to create an ecommerce from scratch using node.js, express, handlebars and MongoDB.
 
 ## Project Description
 
